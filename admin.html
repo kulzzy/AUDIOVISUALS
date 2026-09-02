@@ -1,1 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
+<title>Kulzzy Radio — AUDIOVISUALS ADMIN</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:#06142e;
+color:#fff;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+header{
+background:#071b3b;
+border-bottom:2px solid #ffd21c;
+padding:16px;
+text-align:center;
+}
+
+header h1{
+margin:0;
+font-size:22px;
+}
+
+header p{
+margin:6px 0 0;
+color:#aebdd2;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+padding:20px 15px 50px;
+}
+
+.panel{
+background:#0b2348;
+border:1px solid #1d4274;
+border-radius:12px;
+padding:20px;
+margin-bottom:20px;
+}
+
+.panel h2{
+margin-top:0;
+font-size:20px;
+}
+
+label{
+display:block;
+font-weight:800;
+margin:15px 0 7px;
+}
+
+input[type="text"],
+input[type="file"]{
+width:100%;
+padding:13px;
+border:1px solid #31527f;
+border-radius:8px;
+background:#06142e;
+color:#fff;
+font-size:15px;
+}
+
+button{
+border:0;
+border-radius:8px;
+padding:12px 17px;
+font-weight:900;
+cursor:pointer;
+}
+
+.uploadBtn{
+margin-top:18px;
+background:#ffd21c;
+color:#071b3b;
+width:100%;
+font-size:16px;
+}
+
+.progress{
+height:10px;
+background:#06142e;
+border-radius:20px;
+overflow:hidden;
+margin-top:15px;
+display:none;
+}
+
+.progressBar{
+height:100%;
+width:0%;
+background:#ffd21c;
+transition:width .2s;
+}
+
+.status{
+margin-top:12px;
+font-size:14px;
+color:#b8c6da;
+}
+
+.videoItem{
+display:flex;
+align-items:center;
+gap:12px;
+background:#071b3b;
+border:1px solid #1c3d6c;
+border-radius:9px;
+padding:10px;
+margin-top:10px;
+}
+
+.videoItem img{
+width:110px;
+height:62px;
+object-fit:cover;
+border-radius:6px;
+background:#000;
+}
+
+.videoItemInfo{
+flex:1;
+min-width:0;
+}
+
+.videoItemTitle{
+font-weight:800;
+word-break:break-word;
+}
+
+.deleteBtn{
+background:#d92323;
+color:#fff;
+padding:9px 12px;
+}
+
+.preview{
+display:none;
+width:100%;
+max-height:350px;
+margin-top:15px;
+background:#000;
+border-radius:8px;
+}
+
+.backBtn{
+background:#fff;
+color:#071b3b;
+margin-top:10px;
+}
+
+@media(max-width:600px){
+
+.videoItem{
+align-items:flex-start;
+}
+
+.videoItem img{
+width:90px;
+height:52px;
+}
+
+.videoItemInfo{
+font-size:13px;
+}
+
+.deleteBtn{
+padding:8px;
+font-size:12px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>KULZZY RADIO • AUDIOVISUALS ADMIN</h1>
+
+<p>Upload and manage your videos</p>
+
+</header>
+
+
+<main class="container">
+
+
+<section class="panel">
+
+<h2>UPLOAD VIDEO</h2>
+
+
+<label for="videoTitle">
+Video Title
+</label>
+
+<input
+id="videoTitle"
+type="text"
+placeholder="Enter video title"
+>
+
+
+<label for="videoFile">
+Choose Video
+</label>
+
+<input
+id="videoFile"
+type="file"
+accept="video/*"
+>
+
+
+<video
+id="preview"
+class="preview"
+controls>
+</video>
+
+
+<div
+id="progress"
+class="progress">
+
+<div
+id="progressBar"
+class="progressBar">
+</div>
+
+</div>
+
+
+<div
+id="status"
+class="status">
+Ready to upload.
+</div>
+
+
+<button
+id="uploadBtn"
+class="uploadBtn">
+
+UPLOAD & PUBLISH
+
+</button>
+
+</section>
+
+
+<section class="panel">
+
+<h2>
+PUBLISHED VIDEOS
+</h2>
+
+<div id="videoList"></div>
+
+</section>
+
+
+</main>
+
+
+<script>
+
+const CLOUD_NAME =
+"s4j0x7dk";
+
+const UPLOAD_PRESET =
+"audiovisuals";
+
+
+const videoTitle =
+document.getElementById("videoTitle");
+
+const videoFile =
+document.getElementById("videoFile");
+
+const uploadBtn =
+document.getElementById("uploadBtn");
+
+const statusEl =
+document.getElementById("status");
+
+const progress =
+document.getElementById("progress");
+
+const progressBar =
+document.getElementById("progressBar");
+
+const videoList =
+document.getElementById("videoList");
+
+const preview =
+document.getElementById("preview");
+
+
+function getVideos(){
+
+try{
+
+return JSON.parse(
+localStorage.getItem("KULZZY_AUDIOVISUALS_VIDEOS")
+) || [];
+
+}catch(error){
+
+return [];
+
+}
+
+}
+
+
+function saveVideos(videos){
+
+localStorage.setItem(
+"KULZZY_AUDIOVISUALS_VIDEOS",
+JSON.stringify(videos)
+);
+
+}
+
+
+videoFile.addEventListener(
+"change",
+function(){
+
+const file =
+videoFile.files[0];
+
+if(!file){
+
+preview.style.display = "none";
+
+return;
+
+}
+
+preview.src =
+URL.createObjectURL(file);
+
+preview.style.display =
+"block";
+
+});
+
+
+function renderVideos(){
+
+const videos = getVideos();
+
+videoList.innerHTML = "";
+
+if(videos.length === 0){
+
+videoList.innerHTML =
+"<p style='color:#aebdd2'>No videos published yet.</p>";
+
+return;
+
+}
+
+
+videos.forEach(function(video,index){
+
+const item =
+document.createElement("div");
+
+item.className = "videoItem";
+
+
+const image =
+document.createElement("img");
+
+image.src =
+video.thumbnail ||
+("https://res.cloudinary.com/" +
+CLOUD_NAME +
+"/video/upload/so_1/" +
+video.publicId +
+".jpg");
+
+
+const info =
+document.createElement("div");
+
+info.className =
+"videoItemInfo";
+
+
+const title =
+document.createElement("div");
+
+title.className =
+"videoItemTitle";
+
+title.textContent =
+video.title ||
+"Kulzzy Radio Video";
+
+
+const date =
+document.createElement("small");
+
+date.style.color =
+"#91a4c0";
+
+date.textContent =
+video.date ?
+new Date(video.date).toLocaleDateString() :
+"";
+
+
+info.appendChild(title);
+
+info.appendChild(date);
+
+
+const deleteBtn =
+document.createElement("button");
+
+deleteBtn.className =
+"deleteBtn";
+
+deleteBtn.textContent =
+"DELETE";
+
+
+deleteBtn.onclick =
+function(){
+
+if(
+confirm(
+"Remove this video from AUDIOVISUALS?"
+)
+){
+
+const current =
+getVideos();
+
+current.splice(index,1);
+
+saveVideos(current);
+
+renderVideos();
+
+}
+
+};
+
+
+item.appendChild(image);
+
+item.appendChild(info);
+
+item.appendChild(deleteBtn);
+
+videoList.appendChild(item);
+
+});
+
+}
+
+
+function uploadVideo(){
+
+return new Promise(
+function(resolve,reject){
+
+const file =
+videoFile.files[0];
+
+if(!file){
+
+reject(
+new Error("Please choose a video.")
+);
+
+return;
+
+}
+
+
+const title =
+videoTitle.value.trim();
+
+if(!title){
+
+reject(
+new Error("Please enter a video title.")
+);
+
+return;
+
+}
+
+
+const url =
+"https://api.cloudinary.com/v1_1/" +
+CLOUD_NAME +
+"/video/upload";
+
+
+const xhr =
+new XMLHttpRequest();
+
+xhr.open(
+"POST",
+url,
+true
+);
+
+
+xhr.upload.onprogress =
+function(event){
+
+if(event.lengthComputable){
+
+const percent =
+Math.round(
+(event.loaded / event.total) * 100
+);
+
+progress.style.display =
+"block";
+
+progressBar.style.width =
+percent + "%";
+
+statusEl.textContent =
+"Uploading " + percent + "%";
+
+}
+
+};
+
+
+xhr.onload =
+function(){
+
+if(xhr.status >= 200 &&
+xhr.status < 300){
+
+try{
+
+const data =
+JSON.parse(xhr.responseText);
+
+resolve(data);
+
+}catch(error){
+
+reject(error);
+
+}
+
+}else{
+
+reject(
+new Error(
+"Cloudinary upload failed."
+)
+);
+
+}
+
+};
+
+
+xhr.onerror =
+function(){
+
+reject(
+new Error(
+"Network error during upload."
+)
+);
+
+};
+
+
+const formData =
+new FormData();
+
+formData.append(
+"file",
+file
+);
+
+formData.append(
+"upload_preset",
+UPLOAD_PRESET
+);
+
+xhr.send(formData);
+
+});
+
+}
+
+
+uploadBtn.onclick =
+async function(){
+
+try{
+
+uploadBtn.disabled =
+true;
+
+uploadBtn.textContent =
+"UPLOADING...";
+
+statusEl.textContent =
+"Preparing upload...";
+
+progress.style.display =
+"block";
+
+progressBar.style.width =
+"0%";
+
+
+const data =
+await uploadVideo();
+
+
+const videos =
+getVideos();
+
+
+videos.unshift({
+
+id:
+Date.now().toString(),
+
+title:
+videoTitle.value.trim(),
+
+url:
+data.secure_url,
+
+publicId:
+data.public_id,
+
+thumbnail:
+data.secure_url
+.replace(
+"/upload/",
+"/upload/so_1/"
+)
+.replace(
+/\.[^/.]+$/,
+".jpg"
+),
+
+date:
+new Date().toISOString()
+
+});
+
+
+saveVideos(videos);
+
+
+statusEl.textContent =
+"Video uploaded and published successfully.";
+
+progressBar.style.width =
+"100%";
+
+
+videoTitle.value =
+"";
+
+videoFile.value =
+"";
+
+preview.pause();
+
+preview.removeAttribute("src");
+
+preview.load();
+
+preview.style.display =
+"none";
+
+
+renderVideos();
+
+
+}catch(error){
+
+statusEl.textContent =
+error.message ||
+"Upload failed.";
+
+}finally{
+
+uploadBtn.disabled =
+false;
+
+uploadBtn.textContent =
+"UPLOAD & PUBLISH";
+
+}
+
+};
+
+
+renderVideos();
+
+</script>
+
+</body>
+</html>
