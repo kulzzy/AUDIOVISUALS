@@ -1,730 +1,1232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>Kulzzy Radio — AUDIOVISUALS ADMIN</title>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Kulzzy Radio Audiovisuals Admin</title>
 
 <style>
 
 *{
-box-sizing:border-box;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 body{
-margin:0;
-background:#06142e;
-color:#fff;
-font-family:Arial,Helvetica,sans-serif;
-}
-
-header{
-background:#071b3b;
-border-bottom:2px solid #ffd21c;
-padding:16px;
-text-align:center;
-}
-
-header h1{
-margin:0;
-font-size:22px;
-}
-
-header p{
-margin:6px 0 0;
-color:#aebdd2;
+    background:#06152f;
+    color:white;
+    font-family:Arial,Helvetica,sans-serif;
+    min-height:100vh;
 }
 
 .container{
-max-width:800px;
-margin:auto;
-padding:20px 15px 50px;
+    width:100%;
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+
+.header{
+    text-align:center;
+    padding:20px 10px;
+    border-bottom:2px solid #d4af37;
+    margin-bottom:25px;
+}
+
+.header h1{
+    color:#ffd700;
+    font-size:25px;
+}
+
+.header p{
+    margin-top:6px;
+    color:#ddd;
 }
 
 .panel{
-background:#0b2348;
-border:1px solid #1d4274;
-border-radius:12px;
-padding:20px;
-margin-bottom:20px;
+    background:#0b2247;
+    border:1px solid rgba(255,215,0,.3);
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
 }
 
 .panel h2{
-margin-top:0;
-font-size:20px;
+    color:#ffd700;
+    font-size:20px;
+    margin-bottom:18px;
 }
 
 label{
-display:block;
-font-weight:800;
-margin:15px 0 7px;
+    display:block;
+    margin-bottom:7px;
+    font-weight:bold;
 }
 
+input[type="email"],
+input[type="password"],
 input[type="text"],
 input[type="file"]{
-width:100%;
-padding:13px;
-border:1px solid #31527f;
-border-radius:8px;
-background:#06142e;
-color:#fff;
-font-size:15px;
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:7px;
+    margin-bottom:15px;
+    background:#fff;
+    color:#111;
 }
 
 button{
-border:0;
-border-radius:8px;
-padding:12px 17px;
-font-weight:900;
-cursor:pointer;
+    border:none;
+    border-radius:7px;
+    padding:12px 18px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.uploadBtn{
-margin-top:18px;
-background:#ffd21c;
-color:#071b3b;
-width:100%;
-font-size:16px;
+.login-button,
+.upload-button{
+    background:#ffd700;
+    color:#06152f;
 }
 
-.progress{
-height:10px;
-background:#06142e;
-border-radius:20px;
-overflow:hidden;
-margin-top:15px;
-display:none;
+.logout-button{
+    background:#b00020;
+    color:white;
 }
 
-.progressBar{
-height:100%;
-width:0%;
-background:#ffd21c;
-transition:width .2s;
+button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
 }
 
 .status{
-margin-top:12px;
-font-size:14px;
-color:#b8c6da;
+    margin-top:15px;
+    padding:12px;
+    border-radius:7px;
+    background:#07172f;
+    color:#ddd;
+    display:none;
 }
 
-.videoItem{
-display:flex;
-align-items:center;
-gap:12px;
-background:#071b3b;
-border:1px solid #1c3d6c;
-border-radius:9px;
-padding:10px;
-margin-top:10px;
+.status.show{
+    display:block;
 }
 
-.videoItem img{
-width:110px;
-height:62px;
-object-fit:cover;
-border-radius:6px;
-background:#000;
+.progress{
+    width:100%;
+    height:12px;
+    background:#020b19;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:15px;
+    display:none;
 }
 
-.videoItemInfo{
-flex:1;
-min-width:0;
+.progress-bar{
+    width:0%;
+    height:100%;
+    background:#ffd700;
+    transition:width .2s;
 }
 
-.videoItemTitle{
-font-weight:800;
-word-break:break-word;
+.admin-area{
+    display:none;
 }
 
-.deleteBtn{
-background:#d92323;
-color:#fff;
-padding:9px 12px;
+.admin-area.active{
+    display:block;
 }
 
-.preview{
-display:none;
-width:100%;
-max-height:350px;
-margin-top:15px;
-background:#000;
-border-radius:8px;
+.video-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
 }
 
-.backBtn{
-background:#fff;
-color:#071b3b;
-margin-top:10px;
+.video-item{
+    background:#071a38;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:9px;
+    padding:12px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.video-thumb{
+    width:120px;
+    aspect-ratio:16/9;
+    background:#000;
+    border-radius:6px;
+    overflow:hidden;
+    flex-shrink:0;
+}
+
+.video-thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.video-details{
+    flex:1;
+    min-width:0;
+}
+
+.video-name{
+    font-weight:bold;
+    word-break:break-word;
+}
+
+.video-date{
+    font-size:12px;
+    color:#aaa;
+    margin-top:5px;
+}
+
+.delete-button{
+    background:#d00000;
+    color:white;
+    flex-shrink:0;
+}
+
+.hidden{
+    display:none!important;
 }
 
 @media(max-width:600px){
 
-.videoItem{
-align-items:flex-start;
-}
+    .container{
+        padding:10px;
+    }
 
-.videoItem img{
-width:90px;
-height:52px;
-}
+    .panel{
+        padding:15px;
+    }
 
-.videoItemInfo{
-font-size:13px;
-}
+    .video-item{
+        align-items:flex-start;
+        flex-wrap:wrap;
+    }
 
-.deleteBtn{
-padding:8px;
-font-size:12px;
-}
+    .video-details{
+        width:calc(100% - 132px);
+    }
+
+    .delete-button{
+        width:100%;
+    }
 
 }
 
 </style>
+
 </head>
 
 <body>
 
-<header>
+<div class="container">
 
-<h1>KULZZY RADIO • AUDIOVISUALS ADMIN</h1>
+    <div class="header">
 
-<p>Upload and manage your videos</p>
+        <h1>
+            KULZZY RADIO
+            AUDIOVISUALS ADMIN
+        </h1>
 
-</header>
+        <p>
+            Upload and publish audiovisual videos
+        </p>
 
-
-<main class="container">
-
-
-<section class="panel">
-
-<h2>UPLOAD VIDEO</h2>
-
-
-<label for="videoTitle">
-Video Title
-</label>
-
-<input
-id="videoTitle"
-type="text"
-placeholder="Enter video title"
->
+    </div>
 
 
-<label for="videoFile">
-Choose Video
-</label>
+    <!-- =================================================
+         LOGIN
+    ================================================== -->
 
-<input
-id="videoFile"
-type="file"
-accept="video/*"
->
+    <div
+        id="loginPanel"
+        class="panel">
+
+        <h2>
+            ADMIN LOGIN
+        </h2>
+
+        <label>
+            Email
+        </label>
+
+        <input
+            id="email"
+            type="email"
+            placeholder="Admin email">
 
 
-<video
-id="preview"
-class="preview"
-controls>
-</video>
+        <label>
+            Password
+        </label>
+
+        <input
+            id="password"
+            type="password"
+            placeholder="Admin password">
 
 
-<div
-id="progress"
-class="progress">
+        <button
+            id="loginButton"
+            class="login-button">
 
-<div
-id="progressBar"
-class="progressBar">
+            LOGIN
+
+        </button>
+
+
+        <div
+            id="loginStatus"
+            class="status">
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         ADMIN AREA
+    ================================================== -->
+
+    <div
+        id="adminArea"
+        class="admin-area">
+
+
+        <!-- UPLOAD -->
+
+        <div class="panel">
+
+            <h2>
+                UPLOAD AUDIOVISUAL
+            </h2>
+
+
+            <label>
+                Video Title
+            </label>
+
+            <input
+                id="videoTitle"
+                type="text"
+                placeholder="Enter video title">
+
+
+            <label>
+                Select Video
+            </label>
+
+            <input
+                id="videoFile"
+                type="file"
+                accept="video/*">
+
+
+            <button
+                id="uploadButton"
+                class="upload-button">
+
+                UPLOAD & PUBLISH
+
+            </button>
+
+
+            <div
+                id="uploadStatus"
+                class="status">
+            </div>
+
+
+            <div
+                id="progress"
+                class="progress">
+
+                <div
+                    id="progressBar"
+                    class="progress-bar">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PUBLISHED VIDEOS -->
+
+        <div class="panel">
+
+            <h2>
+                PUBLISHED VIDEOS
+            </h2>
+
+            <div
+                id="videoList"
+                class="video-list">
+
+                Loading...
+
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <button
+                id="logoutButton"
+                class="logout-button">
+
+                LOGOUT
+
+            </button>
+
+        </div>
+
+    </div>
+
 </div>
 
-</div>
+
+<script type="module">
+
+/*
+==========================================================
+FIREBASE CONFIG
+==========================================================
+*/
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyCheGUZWbyh3IS4l_MbToCyBgYDre8ZU_M",
+
+    authDomain:
+    "audiovisuals-500cf.firebaseapp.com",
+
+    databaseURL:
+    "https://audiovisuals-500cf-default-rtdb.europe-west1.firebasedatabase.app",
+
+    projectId:
+    "audiovisuals-500cf",
+
+    storageBucket:
+    "audiovisuals-500cf.firebasestorage.app",
+
+    messagingSenderId:
+    "34375747661",
+
+    appId:
+    "1:34375747661:web:94ec087328dc5daebd3404",
+
+    measurementId:
+    "G-HE48JBFLD6"
+};
 
 
-<div
-id="status"
-class="status">
-Ready to upload.
-</div>
+/*
+==========================================================
+FIREBASE IMPORTS
+==========================================================
+*/
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getDatabase,
+    ref,
+    push,
+    set,
+    remove,
+    onValue
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
-<button
-id="uploadBtn"
-class="uploadBtn">
+/*
+==========================================================
+INITIALIZE
+==========================================================
+*/
 
-UPLOAD & PUBLISH
+const app =
+    initializeApp(firebaseConfig);
 
-</button>
+const database =
+    getDatabase(app);
 
-</section>
-
-
-<section class="panel">
-
-<h2>
-PUBLISHED VIDEOS
-</h2>
-
-<div id="videoList"></div>
-
-</section>
+const auth =
+    getAuth(app);
 
 
-</main>
+/*
+==========================================================
+ELEMENTS
+==========================================================
+*/
 
+const loginPanel =
+    document.getElementById("loginPanel");
 
-<script>
+const adminArea =
+    document.getElementById("adminArea");
 
-const CLOUD_NAME =
-"s4j0x7dk";
+const loginButton =
+    document.getElementById("loginButton");
 
-const UPLOAD_PRESET =
-"audiovisuals";
+const logoutButton =
+    document.getElementById("logoutButton");
 
+const emailInput =
+    document.getElementById("email");
+
+const passwordInput =
+    document.getElementById("password");
+
+const loginStatus =
+    document.getElementById("loginStatus");
 
 const videoTitle =
-document.getElementById("videoTitle");
+    document.getElementById("videoTitle");
 
 const videoFile =
-document.getElementById("videoFile");
+    document.getElementById("videoFile");
 
-const uploadBtn =
-document.getElementById("uploadBtn");
+const uploadButton =
+    document.getElementById("uploadButton");
 
-const statusEl =
-document.getElementById("status");
+const uploadStatus =
+    document.getElementById("uploadStatus");
 
 const progress =
-document.getElementById("progress");
+    document.getElementById("progress");
 
 const progressBar =
-document.getElementById("progressBar");
+    document.getElementById("progressBar");
 
 const videoList =
-document.getElementById("videoList");
-
-const preview =
-document.getElementById("preview");
+    document.getElementById("videoList");
 
 
-function getVideos(){
+/*
+==========================================================
+STATUS
+==========================================================
+*/
 
-try{
-
-return JSON.parse(
-localStorage.getItem("KULZZY_AUDIOVISUALS_VIDEOS")
-) || [];
-
-}catch(error){
-
-return [];
-
-}
-
-}
-
-
-function saveVideos(videos){
-
-localStorage.setItem(
-"KULZZY_AUDIOVISUALS_VIDEOS",
-JSON.stringify(videos)
-);
-
-}
-
-
-videoFile.addEventListener(
-"change",
-function(){
-
-const file =
-videoFile.files[0];
-
-if(!file){
-
-preview.style.display = "none";
-
-return;
-
-}
-
-preview.src =
-URL.createObjectURL(file);
-
-preview.style.display =
-"block";
-
-});
-
-
-function renderVideos(){
-
-const videos = getVideos();
-
-videoList.innerHTML = "";
-
-if(videos.length === 0){
-
-videoList.innerHTML =
-"<p style='color:#aebdd2'>No videos published yet.</p>";
-
-return;
-
-}
-
-
-videos.forEach(function(video,index){
-
-const item =
-document.createElement("div");
-
-item.className = "videoItem";
-
-
-const image =
-document.createElement("img");
-
-image.src =
-video.thumbnail ||
-("https://res.cloudinary.com/" +
-CLOUD_NAME +
-"/video/upload/so_1/" +
-video.publicId +
-".jpg");
-
-
-const info =
-document.createElement("div");
-
-info.className =
-"videoItemInfo";
-
-
-const title =
-document.createElement("div");
-
-title.className =
-"videoItemTitle";
-
-title.textContent =
-video.title ||
-"Kulzzy Radio Video";
-
-
-const date =
-document.createElement("small");
-
-date.style.color =
-"#91a4c0";
-
-date.textContent =
-video.date ?
-new Date(video.date).toLocaleDateString() :
-"";
-
-
-info.appendChild(title);
-
-info.appendChild(date);
-
-
-const deleteBtn =
-document.createElement("button");
-
-deleteBtn.className =
-"deleteBtn";
-
-deleteBtn.textContent =
-"DELETE";
-
-
-deleteBtn.onclick =
-function(){
-
-if(
-confirm(
-"Remove this video from AUDIOVISUALS?"
-)
+function showStatus(
+    element,
+    message
 ){
 
-const current =
-getVideos();
+    element.textContent =
+        message;
 
-current.splice(index,1);
-
-saveVideos(current);
-
-renderVideos();
-
-}
-
-};
-
-
-item.appendChild(image);
-
-item.appendChild(info);
-
-item.appendChild(deleteBtn);
-
-videoList.appendChild(item);
-
-});
+    element.classList.add(
+        "show"
+    );
 
 }
 
 
-function uploadVideo(){
+/*
+==========================================================
+AUTH STATE
+==========================================================
+*/
 
-return new Promise(
-function(resolve,reject){
+onAuthStateChanged(
+    auth,
+    function(user){
 
-const file =
-videoFile.files[0];
+        if(user){
 
-if(!file){
+            loginPanel.classList.add(
+                "hidden"
+            );
 
-reject(
-new Error("Please choose a video.")
-);
+            adminArea.classList.add(
+                "active"
+            );
 
-return;
+            loadVideos();
 
-}
+        }else{
 
+            loginPanel.classList.remove(
+                "hidden"
+            );
 
-const title =
-videoTitle.value.trim();
+            adminArea.classList.remove(
+                "active"
+            );
 
-if(!title){
+        }
 
-reject(
-new Error("Please enter a video title.")
-);
-
-return;
-
-}
-
-
-const url =
-"https://api.cloudinary.com/v1_1/" +
-CLOUD_NAME +
-"/video/upload";
-
-
-const xhr =
-new XMLHttpRequest();
-
-xhr.open(
-"POST",
-url,
-true
+    }
 );
 
 
-xhr.upload.onprogress =
-function(event){
+/*
+==========================================================
+LOGIN
+==========================================================
+*/
 
-if(event.lengthComputable){
+loginButton.addEventListener(
+    "click",
+    async function(){
 
-const percent =
-Math.round(
-(event.loaded / event.total) * 100
+        const email =
+            emailInput.value.trim();
+
+        const password =
+            passwordInput.value;
+
+
+        if(!email || !password){
+
+            showStatus(
+                loginStatus,
+                "Enter your email and password."
+            );
+
+            return;
+
+        }
+
+
+        loginButton.disabled =
+            true;
+
+        loginButton.textContent =
+            "LOGGING IN...";
+
+
+        try{
+
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+
+            loginStatus.classList.remove(
+                "show"
+            );
+
+
+        }catch(error){
+
+            console.error(error);
+
+            showStatus(
+                loginStatus,
+                "Login failed: " +
+                error.message
+            );
+
+        }
+
+
+        loginButton.disabled =
+            false;
+
+        loginButton.textContent =
+            "LOGIN";
+
+    }
 );
 
-progress.style.display =
-"block";
 
-progressBar.style.width =
-percent + "%";
+/*
+==========================================================
+LOGOUT
+==========================================================
+*/
 
-statusEl.textContent =
-"Uploading " + percent + "%";
+logoutButton.addEventListener(
+    "click",
+    async function(){
+
+        await signOut(auth);
+
+    }
+);
+
+
+/*
+==========================================================
+UPLOAD TO CLOUDINARY
+==========================================================
+*/
+
+uploadButton.addEventListener(
+    "click",
+    function(){
+
+        uploadVideo();
+
+    }
+);
+
+
+async function uploadVideo(){
+
+    const title =
+        videoTitle.value.trim();
+
+    const file =
+        videoFile.files[0];
+
+
+    if(!title){
+
+        showStatus(
+            uploadStatus,
+            "Enter a video title."
+        );
+
+        return;
+
+    }
+
+
+    if(!file){
+
+        showStatus(
+            uploadStatus,
+            "Select a video first."
+        );
+
+        return;
+
+    }
+
+
+    if(!file.type.startsWith("video/")){
+
+        showStatus(
+            uploadStatus,
+            "Please select a video file."
+        );
+
+        return;
+
+    }
+
+
+    uploadButton.disabled =
+        true;
+
+    uploadButton.textContent =
+        "UPLOADING...";
+
+
+    progress.style.display =
+        "block";
+
+    progressBar.style.width =
+        "0%";
+
+
+    try{
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "file",
+            file
+        );
+
+
+        formData.append(
+            "upload_preset",
+            "audiovisuals"
+        );
+
+
+        const xhr =
+            new XMLHttpRequest();
+
+
+        xhr.open(
+            "POST",
+            "https://api.cloudinary.com/v1_1/s4j0x7dk/video/upload"
+        );
+
+
+        xhr.upload.addEventListener(
+            "progress",
+            function(event){
+
+                if(event.lengthComputable){
+
+                    const percent =
+                        Math.round(
+                            (event.loaded /
+                            event.total) *
+                            100
+                        );
+
+                    progressBar.style.width =
+                        percent + "%";
+
+                    showStatus(
+                        uploadStatus,
+                        "Uploading video... " +
+                        percent +
+                        "%"
+                    );
+
+                }
+
+            }
+        );
+
+
+        xhr.onload =
+            async function(){
+
+                try{
+
+                    const result =
+                        JSON.parse(
+                            xhr.responseText
+                        );
+
+
+                    if(
+                        xhr.status < 200 ||
+                        xhr.status >= 300
+                    ){
+
+                        throw new Error(
+                            result.error &&
+                            result.error.message
+                            ?
+                            result.error.message
+                            :
+                            "Cloudinary upload failed."
+                        );
+
+                    }
+
+
+                    /*
+                    CLOUDINARY VIDEO URL
+                    */
+
+                    const videoUrl =
+                        result.secure_url;
+
+
+                    const publicId =
+                        result.public_id;
+
+
+                    /*
+                    CLOUDINARY THUMBNAIL
+                    */
+
+                    const thumbnail =
+                        "https://res.cloudinary.com/s4j0x7dk/video/upload/so_0/" +
+                        publicId +
+                        ".jpg";
+
+
+                    /*
+                    SAVE METADATA TO FIREBASE
+                    */
+
+                    const newVideoRef =
+                        push(
+                            ref(
+                                database,
+                                "videos"
+                            )
+                        );
+
+
+                    await set(
+                        newVideoRef,
+                        {
+
+                            title:
+                                title,
+
+                            url:
+                                videoUrl,
+
+                            publicId:
+                                publicId,
+
+                            thumbnail:
+                                thumbnail,
+
+                            published:
+                                true,
+
+                            createdAt:
+                                Date.now(),
+
+                            uploadedBy:
+                                auth.currentUser.uid
+
+                        }
+                    );
+
+
+                    showStatus(
+                        uploadStatus,
+                        "Video uploaded and published successfully."
+                    );
+
+
+                    videoTitle.value =
+                        "";
+
+                    videoFile.value =
+                        "";
+
+                    progressBar.style.width =
+                        "100%";
+
+
+                }catch(error){
+
+                    console.error(error);
+
+                    showStatus(
+                        uploadStatus,
+                        "Error: " +
+                        error.message
+                    );
+
+                }
+
+
+                uploadButton.disabled =
+                    false;
+
+                uploadButton.textContent =
+                    "UPLOAD & PUBLISH";
+
+            };
+
+
+        xhr.onerror =
+            function(){
+
+                showStatus(
+                    uploadStatus,
+                    "Network error while uploading."
+                );
+
+
+                uploadButton.disabled =
+                    false;
+
+                uploadButton.textContent =
+                    "UPLOAD & PUBLISH";
+
+            };
+
+
+        xhr.send(
+            formData
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+        showStatus(
+            uploadStatus,
+            "Upload failed: " +
+            error.message
+        );
+
+
+        uploadButton.disabled =
+            false;
+
+        uploadButton.textContent =
+            "UPLOAD & PUBLISH";
+
+    }
 
 }
 
-};
+
+/*
+==========================================================
+LOAD PUBLISHED VIDEOS
+==========================================================
+*/
+
+function loadVideos(){
+
+    const videosRef =
+        ref(
+            database,
+            "videos"
+        );
 
 
-xhr.onload =
-function(){
+    onValue(
+        videosRef,
+        function(snapshot){
 
-if(xhr.status >= 200 &&
-xhr.status < 300){
+            const data =
+                snapshot.val();
 
-try{
 
-const data =
-JSON.parse(xhr.responseText);
+            videoList.innerHTML =
+                "";
 
-resolve(data);
 
-}catch(error){
+            if(!data){
 
-reject(error);
+                videoList.innerHTML =
+                    "<div>No videos published yet.</div>";
+
+                return;
+
+            }
+
+
+            const videos =
+                Object.keys(data)
+                    .map(function(key){
+
+                        return {
+
+                            id:key,
+                            ...data[key]
+
+                        };
+
+                    })
+                    .sort(function(a,b){
+
+                        return (
+                            Number(b.createdAt || 0) -
+                            Number(a.createdAt || 0)
+                        );
+
+                    });
+
+
+            videos.forEach(
+                function(video){
+
+                    createVideoItem(
+                        video
+                    );
+
+                }
+            );
+
+        }
+    );
 
 }
 
-}else{
 
-reject(
-new Error(
-"Cloudinary upload failed."
-)
-);
+/*
+==========================================================
+CREATE ADMIN VIDEO ITEM
+==========================================================
+*/
 
-}
+function createVideoItem(video){
 
-};
+    const item =
+        document.createElement("div");
 
-
-xhr.onerror =
-function(){
-
-reject(
-new Error(
-"Network error during upload."
-)
-);
-
-};
+    item.className =
+        "video-item";
 
 
-const formData =
-new FormData();
-
-formData.append(
-"file",
-file
-);
-
-formData.append(
-"upload_preset",
-UPLOAD_PRESET
-);
-
-xhr.send(formData);
-
-});
-
-}
+    const thumbnail =
+        video.thumbnail ||
+        "";
 
 
-uploadBtn.onclick =
-async function(){
-
-try{
-
-uploadBtn.disabled =
-true;
-
-uploadBtn.textContent =
-"UPLOADING...";
-
-statusEl.textContent =
-"Preparing upload...";
-
-progress.style.display =
-"block";
-
-progressBar.style.width =
-"0%";
+    const date =
+        video.createdAt
+        ?
+        new Date(
+            video.createdAt
+        ).toLocaleString()
+        :
+        "";
 
 
-const data =
-await uploadVideo();
+    item.innerHTML = `
+
+        <div class="video-thumb">
+
+            ${
+                thumbnail
+                ?
+                `<img
+                    src="${escapeHtml(thumbnail)}"
+                    alt="">`
+                :
+                ""
+            }
+
+        </div>
+
+        <div class="video-details">
+
+            <div class="video-name">
+
+                ${escapeHtml(
+                    video.title ||
+                    "Untitled video"
+                )}
+
+            </div>
+
+            <div class="video-date">
+
+                ${escapeHtml(date)}
+
+            </div>
+
+        </div>
+
+        <button
+            class="delete-button">
+
+            DELETE
+
+        </button>
+
+    `;
 
 
-const videos =
-getVideos();
+    const deleteButton =
+        item.querySelector(
+            ".delete-button"
+        );
 
 
-videos.unshift({
+    deleteButton.addEventListener(
+        "click",
+        function(){
 
-id:
-Date.now().toString(),
+            deleteVideo(
+                video.id,
+                video.title
+            );
 
-title:
-videoTitle.value.trim(),
-
-url:
-data.secure_url,
-
-publicId:
-data.public_id,
-
-thumbnail:
-data.secure_url
-.replace(
-"/upload/",
-"/upload/so_1/"
-)
-.replace(
-/\.[^/.]+$/,
-".jpg"
-),
-
-date:
-new Date().toISOString()
-
-});
+        }
+    );
 
 
-saveVideos(videos);
-
-
-statusEl.textContent =
-"Video uploaded and published successfully.";
-
-progressBar.style.width =
-"100%";
-
-
-videoTitle.value =
-"";
-
-videoFile.value =
-"";
-
-preview.pause();
-
-preview.removeAttribute("src");
-
-preview.load();
-
-preview.style.display =
-"none";
-
-
-renderVideos();
-
-
-}catch(error){
-
-statusEl.textContent =
-error.message ||
-"Upload failed.";
-
-}finally{
-
-uploadBtn.disabled =
-false;
-
-uploadBtn.textContent =
-"UPLOAD & PUBLISH";
+    videoList.appendChild(
+        item
+    );
 
 }
 
-};
+
+/*
+==========================================================
+DELETE VIDEO FROM PUBLISHED CATALOGUE
+==========================================================
+*/
+
+async function deleteVideo(
+    id,
+    title
+){
+
+    const confirmed =
+        confirm(
+            'Remove "' +
+            title +
+            '" from AUDIOVISUALS?'
+        );
 
 
-renderVideos();
+    if(!confirmed){
+        return;
+    }
+
+
+    try{
+
+        await remove(
+            ref(
+                database,
+                "videos/" + id
+            )
+        );
+
+
+        alert(
+            "Video removed from the public catalogue."
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Unable to delete video: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+/*
+==========================================================
+HTML ESCAPE
+==========================================================
+*/
+
+function escapeHtml(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
 
 </script>
 
