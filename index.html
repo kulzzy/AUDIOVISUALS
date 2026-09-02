@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -8,9 +9,6 @@
       content="width=device-width, initial-scale=1.0">
 
 <title>Kulzzy Radio Audiovisuals</title>
-
-<meta name="description"
-      content="Kulzzy Radio Audiovisuals">
 
 <style>
 
@@ -24,44 +22,38 @@ html,
 body{
     width:100%;
     min-height:100%;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#06152f;
-    color:white;
 }
 
 body{
+    background:#06152f;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
     overflow-x:hidden;
 }
 
-/* =====================================================
-   HEADER
-===================================================== */
+/* HEADER */
 
 .header{
     width:100%;
     background:#071b3d;
     border-bottom:2px solid #d4af37;
-    padding:18px 20px;
+    padding:18px 15px;
     text-align:center;
 }
 
-.logo-title{
-    font-size:28px;
-    font-weight:900;
+.logo{
     color:#ffd700;
-    letter-spacing:1px;
+    font-size:27px;
+    font-weight:900;
 }
 
-.logo-subtitle{
+.subtitle{
     margin-top:5px;
     font-size:13px;
-    color:#ffffff;
-    opacity:.85;
+    color:#fff;
 }
 
-/* =====================================================
-   MAIN
-===================================================== */
+/* MAIN */
 
 .main{
     width:100%;
@@ -70,16 +62,14 @@ body{
     padding:20px;
 }
 
-.section-title{
+.title{
+    color:#ffd700;
     font-size:22px;
     font-weight:900;
     margin-bottom:18px;
-    color:#ffd700;
 }
 
-/* =====================================================
-   VIDEO GRID
-===================================================== */
+/* GRID */
 
 .video-grid{
     width:100%;
@@ -89,12 +79,12 @@ body{
 }
 
 .video-card{
-    background:#0c2349;
+    background:#0b234a;
     border:1px solid rgba(255,215,0,.25);
     border-radius:12px;
     overflow:hidden;
     cursor:pointer;
-    transition:.2s ease;
+    transition:.2s;
 }
 
 .video-card:hover{
@@ -102,22 +92,22 @@ body{
     border-color:#ffd700;
 }
 
-.video-thumbnail{
-    position:relative;
+.thumbnail{
     width:100%;
     aspect-ratio:16/9;
-    background:#020b19;
+    background:#020914;
+    position:relative;
     overflow:hidden;
 }
 
-.video-thumbnail img{
+.thumbnail img{
     width:100%;
     height:100%;
     object-fit:cover;
     display:block;
 }
 
-.play-button{
+.play{
     position:absolute;
     left:50%;
     top:50%;
@@ -130,72 +120,60 @@ body{
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:25px;
     color:#ffd700;
+    font-size:25px;
 }
 
-.video-info{
+.info{
     padding:12px;
 }
 
-.video-title{
+.video-name{
+    color:#fff;
     font-size:15px;
     font-weight:800;
     line-height:1.35;
-    color:white;
     word-break:break-word;
 }
 
-/* =====================================================
-   SHARE
-===================================================== */
-
-.share-area{
-    margin-top:20px;
-    display:flex;
-    justify-content:center;
-}
-
-.share-button{
-    border:none;
-    background:#ffd700;
-    color:#06152f;
-    font-size:15px;
-    font-weight:900;
-    padding:12px 22px;
-    border-radius:8px;
-    cursor:pointer;
-}
-
-.share-button:active{
-    transform:scale(.97);
-}
-
-/* =====================================================
-   EMPTY / LOADING
-===================================================== */
+/* MESSAGE */
 
 .message{
     width:100%;
     text-align:center;
     padding:50px 20px;
     color:#ccc;
-    font-size:16px;
 }
 
 .loading{
     color:#ffd700;
 }
 
-/* =====================================================
-   VIDEO MODAL
-===================================================== */
+/* SHARE */
+
+.share-area{
+    text-align:center;
+    margin-top:22px;
+}
+
+.share-button{
+    background:#ffd700;
+    color:#06152f;
+    border:none;
+    border-radius:8px;
+    padding:12px 24px;
+    font-weight:900;
+    font-size:15px;
+    cursor:pointer;
+}
+
+/* MODAL */
 
 .modal{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.94);
     z-index:99999;
+    background:rgba(0,0,0,.95);
     display:none;
     align-items:center;
     justify-content:center;
@@ -212,7 +190,7 @@ body{
     position:relative;
 }
 
-.close-button{
+.close{
     position:absolute;
     right:0;
     top:-50px;
@@ -224,27 +202,23 @@ body{
     color:#ffd700;
     font-size:25px;
     cursor:pointer;
-    z-index:5;
 }
 
-.video-player{
+.player{
     width:100%;
     max-height:80vh;
-    background:#000;
     display:block;
+    background:#000;
     border-radius:8px;
 }
 
 .modal-title{
-    margin-top:12px;
-    color:white;
+    margin-top:10px;
     font-size:17px;
     font-weight:800;
 }
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
+/* TABLET */
 
 @media(max-width:1100px){
 
@@ -254,50 +228,54 @@ body{
 
 }
 
+/* PHONE */
+
 @media(max-width:750px){
 
     .main{
-        padding:14px;
+        padding:12px;
     }
 
     .video-grid{
         grid-template-columns:repeat(2,1fr);
-        gap:12px;
+        gap:10px;
     }
 
-    .logo-title{
+    .logo{
         font-size:23px;
     }
 
-    .video-info{
-        padding:9px;
+    .video-name{
+        font-size:13px;
     }
 
-    .video-title{
-        font-size:13px;
+    .info{
+        padding:9px;
     }
 
 }
 
-@media(max-width:430px){
+/* SMALL PHONE */
 
-    .video-grid{
-        grid-template-columns:1fr 1fr;
-        gap:8px;
-    }
+@media(max-width:430px){
 
     .main{
         padding:8px;
     }
 
-    .video-title{
+    .video-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:8px;
+    }
+
+    .video-name{
         font-size:12px;
     }
 
-    .play-button{
-        width:46px;
-        height:46px;
-        font-size:20px;
+    .play{
+        width:45px;
+        height:45px;
+        font-size:19px;
     }
 
 }
@@ -308,35 +286,28 @@ body{
 
 <body>
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
 <header class="header">
 
-    <div class="logo-title">
+    <div class="logo">
         KULZZY RADIO
     </div>
 
-    <div class="logo-subtitle">
+    <div class="subtitle">
         AUDIOVISUALS
     </div>
 
 </header>
 
 
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
 <main class="main">
 
-    <div class="section-title">
+    <div class="title">
         LATEST AUDIOVISUALS
     </div>
 
-    <div id="videoGrid"
-         class="video-grid">
+    <div
+        id="videoGrid"
+        class="video-grid">
 
         <div class="message loading">
             Loading videos...
@@ -349,7 +320,7 @@ body{
 
         <button
             class="share-button"
-            onclick="sharePage()">
+            id="shareButton">
 
             SHARE
 
@@ -360,18 +331,17 @@ body{
 </main>
 
 
-<!-- =====================================================
-     VIDEO MODAL
-===================================================== -->
+<!-- VIDEO PLAYER -->
 
-<div id="videoModal"
-     class="modal">
+<div
+    id="videoModal"
+    class="modal">
 
     <div class="modal-content">
 
         <button
-            class="close-button"
-            onclick="closeVideo()">
+            id="closeButton"
+            class="close">
 
             ×
 
@@ -379,7 +349,7 @@ body{
 
         <video
             id="mainVideo"
-            class="video-player"
+            class="player"
             controls
             playsinline
             preload="metadata">
@@ -411,20 +381,8 @@ import {
     onValue
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
-import {
-    firebaseConfig
-} from "./firebase-config-module.js";
 
-</script>
-
-
-<script type="module">
-
-/*
-==========================================================
-FIREBASE CONFIG
-==========================================================
-*/
+/* FIREBASE CONFIG */
 
 const firebaseConfig = {
 
@@ -451,25 +409,11 @@ const firebaseConfig = {
 
     measurementId:
     "G-HE48JBFLD6"
+
 };
 
 
-/*
-==========================================================
-FIREBASE INITIALIZE
-==========================================================
-*/
-
-import {
-    initializeApp
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-import {
-    getDatabase,
-    ref,
-    onValue
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-
+/* INITIALIZE FIREBASE */
 
 const app =
     initializeApp(firebaseConfig);
@@ -478,11 +422,7 @@ const database =
     getDatabase(app);
 
 
-/*
-==========================================================
-VIDEO LIST
-==========================================================
-*/
+/* ELEMENTS */
 
 const videoGrid =
     document.getElementById("videoGrid");
@@ -496,43 +436,14 @@ const mainVideo =
 const modalTitle =
     document.getElementById("modalTitle");
 
+const closeButton =
+    document.getElementById("closeButton");
 
-let videos = [];
-
-
-/*
-==========================================================
-CREATE THUMBNAIL
-==========================================================
-*/
-
-function getThumbnail(video){
-
-    if(video.thumbnail){
-        return video.thumbnail;
-    }
-
-    if(video.publicId){
-
-        return (
-            "https://res.cloudinary.com/s4j0x7dk/video/upload/" +
-            "so_0/" +
-            video.publicId +
-            ".jpg"
-        );
-
-    }
-
-    return "";
-
-}
+const shareButton =
+    document.getElementById("shareButton");
 
 
-/*
-==========================================================
-LOAD VIDEOS FROM FIREBASE
-==========================================================
-*/
+/* LOAD VIDEOS */
 
 const videosRef =
     ref(database,"videos");
@@ -545,43 +456,64 @@ onValue(
         const data =
             snapshot.val();
 
-        videos = [];
+        videoGrid.innerHTML = "";
 
-        if(data){
+        if(!data){
 
-            Object.keys(data).forEach(function(key){
+            videoGrid.innerHTML = `
+                <div class="message">
+                    No audiovisuals published yet.
+                </div>
+            `;
 
-                const video =
-                    data[key];
-
-                if(video && video.published !== false){
-
-                    video.id = key;
-
-                    videos.push(video);
-
-                }
-
-            });
+            return;
 
         }
 
 
-        /*
-        NEWEST FIRST
-        */
+        const videos =
+            Object.keys(data)
+            .map(function(key){
 
-        videos.sort(function(a,b){
+                return {
+                    id:key,
+                    ...data[key]
+                };
 
-            return (
-                Number(b.createdAt || 0) -
-                Number(a.createdAt || 0)
-            );
+            })
+            .filter(function(video){
+
+                return video.published !== false;
+
+            })
+            .sort(function(a,b){
+
+                return (
+                    Number(b.createdAt || 0) -
+                    Number(a.createdAt || 0)
+                );
+
+            });
+
+
+        if(videos.length === 0){
+
+            videoGrid.innerHTML = `
+                <div class="message">
+                    No audiovisuals published yet.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        videos.forEach(function(video){
+
+            createCard(video);
 
         });
-
-
-        renderVideos();
 
     },
     function(error){
@@ -590,7 +522,7 @@ onValue(
 
         videoGrid.innerHTML = `
             <div class="message">
-                Unable to load videos.
+                Unable to load audiovisuals.
             </div>
         `;
 
@@ -598,102 +530,74 @@ onValue(
 );
 
 
-/*
-==========================================================
-RENDER VIDEOS
-==========================================================
-*/
+/* CREATE VIDEO CARD */
 
-function renderVideos(){
+function createCard(video){
 
-    videoGrid.innerHTML = "";
+    const card =
+        document.createElement("div");
 
-
-    if(videos.length === 0){
-
-        videoGrid.innerHTML = `
-            <div class="message">
-                No audiovisuals published yet.
-            </div>
-        `;
-
-        return;
-
-    }
+    card.className =
+        "video-card";
 
 
-    videos.forEach(function(video){
-
-        const card =
-            document.createElement("div");
-
-        card.className =
-            "video-card";
+    let thumbnail =
+        video.thumbnail || "";
 
 
-        const thumbnail =
-            getThumbnail(video);
+    card.innerHTML = `
 
+        <div class="thumbnail">
 
-        card.innerHTML = `
-
-            <div class="video-thumbnail">
-
-                ${
-                    thumbnail
-                    ?
-                    `<img
-                        src="${escapeHtml(thumbnail)}"
-                        alt="${escapeHtml(video.title || "Video")}"
-                        loading="lazy">`
-                    :
-                    ""
-                }
-
-                <div class="play-button">
-                    ▶
-                </div>
-
-            </div>
-
-            <div class="video-info">
-
-                <div class="video-title">
-
-                    ${escapeHtml(
-                        video.title ||
-                        "Kulzzy Radio Audiovisual"
-                    )}
-
-                </div>
-
-            </div>
-
-        `;
-
-
-        card.addEventListener(
-            "click",
-            function(){
-
-                openVideo(video);
-
+            ${
+                thumbnail
+                ?
+                `<img
+                    src="${escapeHtml(thumbnail)}"
+                    alt="${escapeHtml(video.title || "Video")}"
+                    loading="lazy">`
+                :
+                ""
             }
-        );
+
+            <div class="play">
+                ▶
+            </div>
+
+        </div>
+
+        <div class="info">
+
+            <div class="video-name">
+
+                ${escapeHtml(
+                    video.title ||
+                    "Kulzzy Radio Audiovisual"
+                )}
+
+            </div>
+
+        </div>
+
+    `;
 
 
-        videoGrid.appendChild(card);
+    card.addEventListener(
+        "click",
+        function(){
 
-    });
+            openVideo(video);
+
+        }
+    );
+
+
+    videoGrid.appendChild(card);
 
 }
 
 
-/*
-==========================================================
-OPEN VIDEO
-==========================================================
-*/
+/* OPEN VIDEO */
 
 function openVideo(video){
 
@@ -703,8 +607,7 @@ function openVideo(video){
 
 
     /*
-    Tell parent Kulzzy Radio page
-    to pause the live audio.
+    PAUSE KULZZY RADIO
     */
 
     window.parent.postMessage({
@@ -731,23 +634,14 @@ function openVideo(video){
     );
 
 
-    mainVideo.play().catch(function(error){
-
-        console.log(
-            "Autoplay requires user interaction:",
-            error
-        );
+    mainVideo.play().catch(function(){
 
     });
 
 }
 
 
-/*
-==========================================================
-VIDEO ENDED
-==========================================================
-*/
+/* VIDEO FINISHED */
 
 mainVideo.addEventListener(
     "ended",
@@ -759,14 +653,9 @@ mainVideo.addEventListener(
 );
 
 
-/*
-==========================================================
-CLOSE VIDEO
-==========================================================
-*/
+/* CLOSE VIDEO */
 
-window.closeVideo =
-function(){
+function closeVideo(){
 
     mainVideo.pause();
 
@@ -783,14 +672,18 @@ function(){
 
     resumeRadio();
 
-};
+}
 
 
-/*
-==========================================================
-RESUME RADIO
-==========================================================
-*/
+/* CLOSE BUTTON */
+
+closeButton.addEventListener(
+    "click",
+    closeVideo
+);
+
+
+/* RESUME RADIO */
 
 function resumeRadio(){
 
@@ -807,11 +700,7 @@ function resumeRadio(){
 }
 
 
-/*
-==========================================================
-CLICK OUTSIDE MODAL
-==========================================================
-*/
+/* CLICK OUTSIDE */
 
 videoModal.addEventListener(
     "click",
@@ -830,11 +719,7 @@ videoModal.addEventListener(
 );
 
 
-/*
-==========================================================
-ESCAPE KEY
-==========================================================
-*/
+/* ESCAPE */
 
 document.addEventListener(
     "keydown",
@@ -853,67 +738,67 @@ document.addEventListener(
 );
 
 
-/*
-==========================================================
-SHARE PAGE
-==========================================================
-*/
+/* SHARE */
 
-window.sharePage =
-function(){
+shareButton.addEventListener(
+    "click",
+    async function(){
 
-    const shareData = {
+        const shareData = {
 
-        title:
-        "Kulzzy Radio Audiovisuals",
+            title:
+            "Kulzzy Radio Audiovisuals",
 
-        text:
-        "Watch Kulzzy Radio Audiovisuals",
+            text:
+            "Watch Kulzzy Radio Audiovisuals",
 
-        url:
-        window.location.href
-
-    };
-
-
-    if(
-        navigator.share
-    ){
-
-        navigator.share(
-            shareData
-        ).catch(function(){
-
-        });
-
-    }else{
-
-        navigator.clipboard.writeText(
+            url:
             window.location.href
-        ).then(function(){
 
-            alert(
-                "Audiovisuals link copied."
-            );
+        };
 
-        }).catch(function(){
 
-            alert(
-                window.location.href
-            );
+        if(
+            navigator.share
+        ){
 
-        });
+            try{
+
+                await navigator.share(
+                    shareData
+                );
+
+            }catch(error){
+
+            }
+
+        }else{
+
+            try{
+
+                await navigator.clipboard.writeText(
+                    window.location.href
+                );
+
+                alert(
+                    "Audiovisuals link copied."
+                );
+
+            }catch(error){
+
+                alert(
+                    window.location.href
+                );
+
+            }
+
+        }
 
     }
+);
 
-};
 
-
-/*
-==========================================================
-HTML ESCAPE
-==========================================================
-*/
+/* ESCAPE HTML */
 
 function escapeHtml(value){
 
