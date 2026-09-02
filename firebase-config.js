@@ -1,8 +1,3 @@
-// =====================================================
-// KULZZY RADIO AUDIOVISUALS
-// FIREBASE CONFIGURATION
-// =====================================================
-
 const firebaseConfig = {
   apiKey: "AIzaSyCheGUZWbyh3IS4l_MbToCyBgYDre8ZU_M",
   authDomain: "audiovisuals-500cf.firebaseapp.com",
@@ -13,3 +8,5 @@ const firebaseConfig = {
   appId: "1:34375747661:web:94ec087328dc5daebd3404",
   measurementId: "G-HE48JBFLD6"
 };
+
+export default firebaseConfig;
