@@ -1,1 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Kulzzy Radio — AUDIOVISUALS</title>
 
+<style>
+*{
+box-sizing:border-box;
+}
+
+html,body{
+margin:0;
+padding:0;
+background:#06142e;
+color:#fff;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+min-height:100vh;
+}
+
+header{
+position:sticky;
+top:0;
+z-index:50;
+background:#071b3b;
+border-bottom:2px solid #f5c400;
+padding:14px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+}
+
+.logo{
+font-size:20px;
+font-weight:900;
+letter-spacing:.5px;
+}
+
+.logo span{
+color:#ffd21c;
+}
+
+.shareBtn{
+border:0;
+background:#ffd21c;
+color:#071b3b;
+font-weight:900;
+padding:11px 18px;
+border-radius:8px;
+cursor:pointer;
+font-size:14px;
+}
+
+.shareBtn:active{
+transform:scale(.96);
+}
+
+.container{
+max-width:1500px;
+margin:auto;
+padding:20px 15px 50px;
+}
+
+.heading{
+text-align:center;
+margin-bottom:25px;
+}
+
+.heading h1{
+margin:0;
+font-size:32px;
+font-weight:900;
+}
+
+.heading p{
+margin:8px 0 0;
+color:#b9c7dc;
+}
+
+.videoGrid{
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:16px;
+}
+
+.videoCard{
+background:#0b2348;
+border:1px solid #1b3e70;
+border-radius:12px;
+overflow:hidden;
+cursor:pointer;
+transition:.2s;
+}
+
+.videoCard:hover{
+transform:translateY(-3px);
+border-color:#ffd21c;
+}
+
+.thumbnail{
+position:relative;
+width:100%;
+aspect-ratio:16/9;
+background:#000;
+overflow:hidden;
+}
+
+.thumbnail img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
+.playButton{
+position:absolute;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:48px;
+background:rgba(0,0,0,.18);
+}
+
+.videoInfo{
+padding:12px;
+}
+
+.videoTitle{
+font-size:16px;
+font-weight:800;
+line-height:1.3;
+}
+
+.videoDate{
+margin-top:7px;
+font-size:12px;
+color:#91a4c0;
+}
+
+.loading,
+.empty{
+text-align:center;
+padding:60px 20px;
+color:#b9c7dc;
+}
+
+.modal{
+position:fixed;
+inset:0;
+z-index:100;
+display:none;
+align-items:center;
+justify-content:center;
+background:rgba(0,0,0,.9);
+padding:15px;
+}
+
+.modal.show{
+display:flex;
+}
+
+.player{
+width:min(1100px,100%);
+background:#071b3b;
+border:1px solid #31527f;
+border-radius:12px;
+overflow:hidden;
+}
+
+.playerHeader{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+padding:12px 15px;
+}
+
+.playerTitle{
+font-weight:900;
+font-size:16px;
+}
+
+.closeBtn{
+border:0;
+background:#ffd21c;
+color:#071b3b;
+font-weight:900;
+padding:8px 13px;
+border-radius:7px;
+cursor:pointer;
+}
+
+.videoBox{
+background:#000;
+}
+
+.videoBox video{
+display:block;
+width:100%;
+max-height:78vh;
+}
+
+.playerNote{
+text-align:center;
+padding:10px;
+font-size:12px;
+color:#9fb0c7;
+}
+
+.toast{
+position:fixed;
+left:50%;
+bottom:25px;
+transform:translateX(-50%);
+background:#ffd21c;
+color:#071b3b;
+font-weight:900;
+padding:12px 18px;
+border-radius:8px;
+display:none;
+z-index:200;
+}
+
+.toast.show{
+display:block;
+}
+
+@media(max-width:1000px){
+.videoGrid{
+grid-template-columns:repeat(3,minmax(0,1fr));
+}
+}
+
+@media(max-width:700px){
+header{
+padding:12px;
+}
+
+.logo{
+font-size:17px;
+}
+
+.container{
+padding:15px 10px 40px;
+}
+
+.videoGrid{
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:10px;
+}
+
+.heading h1{
+font-size:26px;
+}
+
+.videoTitle{
+font-size:14px;
+}
+}
+
+@media(max-width:430px){
+.videoGrid{
+grid-template-columns:1fr;
+}
+
+.heading h1{
+font-size:24px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">
+KULZZY RADIO <span>• AUDIOVISUALS</span>
+</div>
+
+<button class="shareBtn" id="shareBtn">
+↗ SHARE
+</button>
+</header>
+
+<main class="container">
+
+<section class="heading">
+<h1>AUDIOVISUALS</h1>
+<p>Watch Kulzzy Radio videos</p>
+</section>
+
+<div id="loading" class="loading">
+Loading videos...
+</div>
+
+<section id="videoGrid" class="videoGrid"></section>
+
+</main>
+
+<div id="modal" class="modal">
+
+<div class="player">
+
+<div class="playerHeader">
+
+<div id="playerTitle" class="playerTitle">
+Kulzzy Radio Video
+</div>
+
+<button id="closeBtn" class="closeBtn">
+CLOSE
+</button>
+
+</div>
+
+<div class="videoBox">
+
+<video
+id="videoPlayer"
+controls
+playsinline
+preload="metadata">
+</video>
+
+</div>
+
+<div class="playerNote">
+Kulzzy Radio audio pauses while the video plays and resumes when the video ends.
+</div>
+
+</div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+
+const videoGrid =
+document.getElementById("videoGrid");
+
+const loading =
+document.getElementById("loading");
+
+const modal =
+document.getElementById("modal");
+
+const videoPlayer =
+document.getElementById("videoPlayer");
+
+const playerTitle =
+document.getElementById("playerTitle");
+
+const closeBtn =
+document.getElementById("closeBtn");
+
+const shareBtn =
+document.getElementById("shareBtn");
+
+const toast =
+document.getElementById("toast");
+
+
+function getVideos(){
+
+try{
+
+return JSON.parse(
+localStorage.getItem("KULZZY_AUDIOVISUALS_VIDEOS")
+) || [];
+
+}catch(error){
+
+return [];
+
+}
+
+}
+
+
+function saveVideos(videos){
+
+localStorage.setItem(
+"KULZZY_AUDIOVISUALS_VIDEOS",
+JSON.stringify(videos)
+);
+
+}
+
+
+function getThumbnail(video){
+
+if(video.thumbnail){
+return video.thumbnail;
+}
+
+return "https://res.cloudinary.com/s4j0x7dk/video/upload/so_1/" +
+video.publicId +
+".jpg";
+
+}
+
+
+function renderVideos(){
+
+const videos = getVideos();
+
+videoGrid.innerHTML = "";
+
+if(videos.length === 0){
+
+loading.style.display = "block";
+
+loading.className = "empty";
+
+loading.textContent =
+"No videos published yet.";
+
+return;
+
+}
+
+loading.style.display = "none";
+
+videos.forEach(function(video){
+
+const card =
+document.createElement("article");
+
+card.className = "videoCard";
+
+const thumbnail =
+document.createElement("div");
+
+thumbnail.className = "thumbnail";
+
+const image =
+document.createElement("img");
+
+image.src = getThumbnail(video);
+
+image.alt = video.title || "Kulzzy Radio Video";
+
+image.loading = "lazy";
+
+const play =
+document.createElement("div");
+
+play.className = "playButton";
+
+play.textContent = "▶";
+
+thumbnail.appendChild(image);
+
+thumbnail.appendChild(play);
+
+
+const info =
+document.createElement("div");
+
+info.className = "videoInfo";
+
+
+const title =
+document.createElement("div");
+
+title.className = "videoTitle";
+
+title.textContent =
+video.title || "Kulzzy Radio Video";
+
+
+const date =
+document.createElement("div");
+
+date.className = "videoDate";
+
+if(video.date){
+
+date.textContent =
+new Date(video.date).toLocaleDateString();
+
+}
+
+
+info.appendChild(title);
+
+info.appendChild(date);
+
+
+card.appendChild(thumbnail);
+
+card.appendChild(info);
+
+
+card.onclick = function(){
+
+openVideo(video);
+
+};
+
+
+videoGrid.appendChild(card);
+
+});
+
+}
+
+
+function tellRadio(action){
+
+window.parent.postMessage({
+
+source:"KULZZY_AUDIOVISUALS",
+
+action:action
+
+},"*");
+
+}
+
+
+function openVideo(video){
+
+playerTitle.textContent =
+video.title || "Kulzzy Radio Video";
+
+tellRadio("VIDEO_PLAY");
+
+videoPlayer.src = video.url;
+
+modal.classList.add("show");
+
+videoPlayer.currentTime = 0;
+
+videoPlayer.play().catch(function(){
+
+});
+
+}
+
+
+function closeVideo(){
+
+videoPlayer.pause();
+
+videoPlayer.removeAttribute("src");
+
+videoPlayer.load();
+
+modal.classList.remove("show");
+
+tellRadio("VIDEO_CLOSE");
+
+}
+
+
+videoPlayer.addEventListener(
+"ended",
+function(){
+
+tellRadio("VIDEO_ENDED");
+
+closeVideo();
+
+});
+
+
+closeBtn.onclick = function(){
+
+closeVideo();
+
+};
+
+
+modal.addEventListener(
+"click",
+function(event){
+
+if(event.target === modal){
+
+closeVideo();
+
+}
+
+});
+
+
+document.addEventListener(
+"keydown",
+function(event){
+
+if(
+event.key === "Escape" &&
+modal.classList.contains("show")
+){
+
+closeVideo();
+
+}
+
+});
+
+
+shareBtn.onclick = async function(){
+
+const shareData = {
+
+title:"Kulzzy Radio AUDIOVISUALS",
+
+text:"Watch Kulzzy Radio AUDIOVISUALS",
+
+url:window.location.href
+
+};
+
+try{
+
+if(navigator.share){
+
+await navigator.share(shareData);
+
+}else{
+
+await navigator.clipboard.writeText(
+window.location.href
+);
+
+showToast("Channel link copied");
+
+}
+
+}catch(error){
+
+}
+
+};
+
+
+function showToast(message){
+
+toast.textContent = message;
+
+toast.classList.add("show");
+
+setTimeout(function(){
+
+toast.classList.remove("show");
+
+},2200);
+
+}
+
+
+renderVideos();
+
+</script>
+
+</body>
+</html>
