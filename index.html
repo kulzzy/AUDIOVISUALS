@@ -1,664 +1,930 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Kulzzy Radio — AUDIOVISUALS</title>
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Kulzzy Radio Audiovisuals</title>
+
+<meta name="description"
+      content="Kulzzy Radio Audiovisuals">
 
 <style>
+
 *{
-box-sizing:border-box;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-html,body{
-margin:0;
-padding:0;
-background:#06142e;
-color:#fff;
-font-family:Arial,Helvetica,sans-serif;
+html,
+body{
+    width:100%;
+    min-height:100%;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#06152f;
+    color:white;
 }
 
 body{
-min-height:100vh;
+    overflow-x:hidden;
 }
 
-header{
-position:sticky;
-top:0;
-z-index:50;
-background:#071b3b;
-border-bottom:2px solid #f5c400;
-padding:14px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:15px;
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+    width:100%;
+    background:#071b3d;
+    border-bottom:2px solid #d4af37;
+    padding:18px 20px;
+    text-align:center;
 }
 
-.logo{
-font-size:20px;
-font-weight:900;
-letter-spacing:.5px;
+.logo-title{
+    font-size:28px;
+    font-weight:900;
+    color:#ffd700;
+    letter-spacing:1px;
 }
 
-.logo span{
-color:#ffd21c;
+.logo-subtitle{
+    margin-top:5px;
+    font-size:13px;
+    color:#ffffff;
+    opacity:.85;
 }
 
-.shareBtn{
-border:0;
-background:#ffd21c;
-color:#071b3b;
-font-weight:900;
-padding:11px 18px;
-border-radius:8px;
-cursor:pointer;
-font-size:14px;
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main{
+    width:100%;
+    max-width:1500px;
+    margin:auto;
+    padding:20px;
 }
 
-.shareBtn:active{
-transform:scale(.96);
+.section-title{
+    font-size:22px;
+    font-weight:900;
+    margin-bottom:18px;
+    color:#ffd700;
 }
 
-.container{
-max-width:1500px;
-margin:auto;
-padding:20px 15px 50px;
+/* =====================================================
+   VIDEO GRID
+===================================================== */
+
+.video-grid{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
 }
 
-.heading{
-text-align:center;
-margin-bottom:25px;
+.video-card{
+    background:#0c2349;
+    border:1px solid rgba(255,215,0,.25);
+    border-radius:12px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:.2s ease;
 }
 
-.heading h1{
-margin:0;
-font-size:32px;
-font-weight:900;
+.video-card:hover{
+    transform:translateY(-3px);
+    border-color:#ffd700;
 }
 
-.heading p{
-margin:8px 0 0;
-color:#b9c7dc;
+.video-thumbnail{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    background:#020b19;
+    overflow:hidden;
 }
 
-.videoGrid{
-display:grid;
-grid-template-columns:repeat(4,minmax(0,1fr));
-gap:16px;
+.video-thumbnail img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
 }
 
-.videoCard{
-background:#0b2348;
-border:1px solid #1b3e70;
-border-radius:12px;
-overflow:hidden;
-cursor:pointer;
-transition:.2s;
+.play-button{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:rgba(0,0,0,.75);
+    border:2px solid #ffd700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    color:#ffd700;
 }
 
-.videoCard:hover{
-transform:translateY(-3px);
-border-color:#ffd21c;
+.video-info{
+    padding:12px;
 }
 
-.thumbnail{
-position:relative;
-width:100%;
-aspect-ratio:16/9;
-background:#000;
-overflow:hidden;
+.video-title{
+    font-size:15px;
+    font-weight:800;
+    line-height:1.35;
+    color:white;
+    word-break:break-word;
 }
 
-.thumbnail img{
-width:100%;
-height:100%;
-object-fit:cover;
-display:block;
+/* =====================================================
+   SHARE
+===================================================== */
+
+.share-area{
+    margin-top:20px;
+    display:flex;
+    justify-content:center;
 }
 
-.playButton{
-position:absolute;
-inset:0;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:48px;
-background:rgba(0,0,0,.18);
+.share-button{
+    border:none;
+    background:#ffd700;
+    color:#06152f;
+    font-size:15px;
+    font-weight:900;
+    padding:12px 22px;
+    border-radius:8px;
+    cursor:pointer;
 }
 
-.videoInfo{
-padding:12px;
+.share-button:active{
+    transform:scale(.97);
 }
 
-.videoTitle{
-font-size:16px;
-font-weight:800;
-line-height:1.3;
+/* =====================================================
+   EMPTY / LOADING
+===================================================== */
+
+.message{
+    width:100%;
+    text-align:center;
+    padding:50px 20px;
+    color:#ccc;
+    font-size:16px;
 }
 
-.videoDate{
-margin-top:7px;
-font-size:12px;
-color:#91a4c0;
+.loading{
+    color:#ffd700;
 }
 
-.loading,
-.empty{
-text-align:center;
-padding:60px 20px;
-color:#b9c7dc;
-}
+/* =====================================================
+   VIDEO MODAL
+===================================================== */
 
 .modal{
-position:fixed;
-inset:0;
-z-index:100;
-display:none;
-align-items:center;
-justify-content:center;
-background:rgba(0,0,0,.9);
-padding:15px;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.94);
+    z-index:99999;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
 }
 
-.modal.show{
-display:flex;
+.modal.active{
+    display:flex;
 }
 
-.player{
-width:min(1100px,100%);
-background:#071b3b;
-border:1px solid #31527f;
-border-radius:12px;
-overflow:hidden;
+.modal-content{
+    width:100%;
+    max-width:1100px;
+    position:relative;
 }
 
-.playerHeader{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-padding:12px 15px;
+.close-button{
+    position:absolute;
+    right:0;
+    top:-50px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:2px solid #ffd700;
+    background:#06152f;
+    color:#ffd700;
+    font-size:25px;
+    cursor:pointer;
+    z-index:5;
 }
 
-.playerTitle{
-font-weight:900;
-font-size:16px;
+.video-player{
+    width:100%;
+    max-height:80vh;
+    background:#000;
+    display:block;
+    border-radius:8px;
 }
 
-.closeBtn{
-border:0;
-background:#ffd21c;
-color:#071b3b;
-font-weight:900;
-padding:8px 13px;
-border-radius:7px;
-cursor:pointer;
+.modal-title{
+    margin-top:12px;
+    color:white;
+    font-size:17px;
+    font-weight:800;
 }
 
-.videoBox{
-background:#000;
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:1100px){
+
+    .video-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
 }
 
-.videoBox video{
-display:block;
-width:100%;
-max-height:78vh;
-}
+@media(max-width:750px){
 
-.playerNote{
-text-align:center;
-padding:10px;
-font-size:12px;
-color:#9fb0c7;
-}
+    .main{
+        padding:14px;
+    }
 
-.toast{
-position:fixed;
-left:50%;
-bottom:25px;
-transform:translateX(-50%);
-background:#ffd21c;
-color:#071b3b;
-font-weight:900;
-padding:12px 18px;
-border-radius:8px;
-display:none;
-z-index:200;
-}
+    .video-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+    }
 
-.toast.show{
-display:block;
-}
+    .logo-title{
+        font-size:23px;
+    }
 
-@media(max-width:1000px){
-.videoGrid{
-grid-template-columns:repeat(3,minmax(0,1fr));
-}
-}
+    .video-info{
+        padding:9px;
+    }
 
-@media(max-width:700px){
-header{
-padding:12px;
-}
+    .video-title{
+        font-size:13px;
+    }
 
-.logo{
-font-size:17px;
-}
-
-.container{
-padding:15px 10px 40px;
-}
-
-.videoGrid{
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:10px;
-}
-
-.heading h1{
-font-size:26px;
-}
-
-.videoTitle{
-font-size:14px;
-}
 }
 
 @media(max-width:430px){
-.videoGrid{
-grid-template-columns:1fr;
+
+    .video-grid{
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+    }
+
+    .main{
+        padding:8px;
+    }
+
+    .video-title{
+        font-size:12px;
+    }
+
+    .play-button{
+        width:46px;
+        height:46px;
+        font-size:20px;
+    }
+
 }
 
-.heading h1{
-font-size:24px;
-}
-}
 </style>
+
 </head>
 
 <body>
 
-<header>
-<div class="logo">
-KULZZY RADIO <span>• AUDIOVISUALS</span>
-</div>
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-<button class="shareBtn" id="shareBtn">
-↗ SHARE
-</button>
+<header class="header">
+
+    <div class="logo-title">
+        KULZZY RADIO
+    </div>
+
+    <div class="logo-subtitle">
+        AUDIOVISUALS
+    </div>
+
 </header>
 
-<main class="container">
 
-<section class="heading">
-<h1>AUDIOVISUALS</h1>
-<p>Watch Kulzzy Radio videos</p>
-</section>
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
-<div id="loading" class="loading">
-Loading videos...
-</div>
+<main class="main">
 
-<section id="videoGrid" class="videoGrid"></section>
+    <div class="section-title">
+        LATEST AUDIOVISUALS
+    </div>
+
+    <div id="videoGrid"
+         class="video-grid">
+
+        <div class="message loading">
+            Loading videos...
+        </div>
+
+    </div>
+
+
+    <div class="share-area">
+
+        <button
+            class="share-button"
+            onclick="sharePage()">
+
+            SHARE
+
+        </button>
+
+    </div>
 
 </main>
 
-<div id="modal" class="modal">
 
-<div class="player">
+<!-- =====================================================
+     VIDEO MODAL
+===================================================== -->
 
-<div class="playerHeader">
+<div id="videoModal"
+     class="modal">
 
-<div id="playerTitle" class="playerTitle">
-Kulzzy Radio Video
+    <div class="modal-content">
+
+        <button
+            class="close-button"
+            onclick="closeVideo()">
+
+            ×
+
+        </button>
+
+        <video
+            id="mainVideo"
+            class="video-player"
+            controls
+            playsinline
+            preload="metadata">
+        </video>
+
+        <div
+            id="modalTitle"
+            class="modal-title">
+        </div>
+
+    </div>
+
 </div>
 
-<button id="closeBtn" class="closeBtn">
-CLOSE
-</button>
 
-</div>
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
 
-<div class="videoBox">
+<script type="module">
 
-<video
-id="videoPlayer"
-controls
-playsinline
-preload="metadata">
-</video>
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
-</div>
+import {
+    getDatabase,
+    ref,
+    onValue
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
-<div class="playerNote">
-Kulzzy Radio audio pauses while the video plays and resumes when the video ends.
-</div>
+import {
+    firebaseConfig
+} from "./firebase-config-module.js";
 
-</div>
+</script>
 
-</div>
 
-<div id="toast" class="toast"></div>
+<script type="module">
 
-<script>
+/*
+==========================================================
+FIREBASE CONFIG
+==========================================================
+*/
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyCheGUZWbyh3IS4l_MbToCyBgYDre8ZU_M",
+
+    authDomain:
+    "audiovisuals-500cf.firebaseapp.com",
+
+    databaseURL:
+    "https://audiovisuals-500cf-default-rtdb.europe-west1.firebasedatabase.app",
+
+    projectId:
+    "audiovisuals-500cf",
+
+    storageBucket:
+    "audiovisuals-500cf.firebasestorage.app",
+
+    messagingSenderId:
+    "34375747661",
+
+    appId:
+    "1:34375747661:web:94ec087328dc5daebd3404",
+
+    measurementId:
+    "G-HE48JBFLD6"
+};
+
+
+/*
+==========================================================
+FIREBASE INITIALIZE
+==========================================================
+*/
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getDatabase,
+    ref,
+    onValue
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+const database =
+    getDatabase(app);
+
+
+/*
+==========================================================
+VIDEO LIST
+==========================================================
+*/
 
 const videoGrid =
-document.getElementById("videoGrid");
+    document.getElementById("videoGrid");
 
-const loading =
-document.getElementById("loading");
+const videoModal =
+    document.getElementById("videoModal");
 
-const modal =
-document.getElementById("modal");
+const mainVideo =
+    document.getElementById("mainVideo");
 
-const videoPlayer =
-document.getElementById("videoPlayer");
-
-const playerTitle =
-document.getElementById("playerTitle");
-
-const closeBtn =
-document.getElementById("closeBtn");
-
-const shareBtn =
-document.getElementById("shareBtn");
-
-const toast =
-document.getElementById("toast");
+const modalTitle =
+    document.getElementById("modalTitle");
 
 
-function getVideos(){
-
-try{
-
-return JSON.parse(
-localStorage.getItem("KULZZY_AUDIOVISUALS_VIDEOS")
-) || [];
-
-}catch(error){
-
-return [];
-
-}
-
-}
+let videos = [];
 
 
-function saveVideos(videos){
-
-localStorage.setItem(
-"KULZZY_AUDIOVISUALS_VIDEOS",
-JSON.stringify(videos)
-);
-
-}
-
+/*
+==========================================================
+CREATE THUMBNAIL
+==========================================================
+*/
 
 function getThumbnail(video){
 
-if(video.thumbnail){
-return video.thumbnail;
+    if(video.thumbnail){
+        return video.thumbnail;
+    }
+
+    if(video.publicId){
+
+        return (
+            "https://res.cloudinary.com/s4j0x7dk/video/upload/" +
+            "so_0/" +
+            video.publicId +
+            ".jpg"
+        );
+
+    }
+
+    return "";
+
 }
 
-return "https://res.cloudinary.com/s4j0x7dk/video/upload/so_1/" +
-video.publicId +
-".jpg";
 
-}
+/*
+==========================================================
+LOAD VIDEOS FROM FIREBASE
+==========================================================
+*/
 
+const videosRef =
+    ref(database,"videos");
+
+
+onValue(
+    videosRef,
+    function(snapshot){
+
+        const data =
+            snapshot.val();
+
+        videos = [];
+
+        if(data){
+
+            Object.keys(data).forEach(function(key){
+
+                const video =
+                    data[key];
+
+                if(video && video.published !== false){
+
+                    video.id = key;
+
+                    videos.push(video);
+
+                }
+
+            });
+
+        }
+
+
+        /*
+        NEWEST FIRST
+        */
+
+        videos.sort(function(a,b){
+
+            return (
+                Number(b.createdAt || 0) -
+                Number(a.createdAt || 0)
+            );
+
+        });
+
+
+        renderVideos();
+
+    },
+    function(error){
+
+        console.error(error);
+
+        videoGrid.innerHTML = `
+            <div class="message">
+                Unable to load videos.
+            </div>
+        `;
+
+    }
+);
+
+
+/*
+==========================================================
+RENDER VIDEOS
+==========================================================
+*/
 
 function renderVideos(){
 
-const videos = getVideos();
-
-videoGrid.innerHTML = "";
-
-if(videos.length === 0){
-
-loading.style.display = "block";
-
-loading.className = "empty";
-
-loading.textContent =
-"No videos published yet.";
-
-return;
-
-}
-
-loading.style.display = "none";
-
-videos.forEach(function(video){
-
-const card =
-document.createElement("article");
-
-card.className = "videoCard";
-
-const thumbnail =
-document.createElement("div");
-
-thumbnail.className = "thumbnail";
-
-const image =
-document.createElement("img");
-
-image.src = getThumbnail(video);
-
-image.alt = video.title || "Kulzzy Radio Video";
-
-image.loading = "lazy";
-
-const play =
-document.createElement("div");
-
-play.className = "playButton";
-
-play.textContent = "▶";
-
-thumbnail.appendChild(image);
-
-thumbnail.appendChild(play);
+    videoGrid.innerHTML = "";
 
 
-const info =
-document.createElement("div");
+    if(videos.length === 0){
 
-info.className = "videoInfo";
+        videoGrid.innerHTML = `
+            <div class="message">
+                No audiovisuals published yet.
+            </div>
+        `;
 
+        return;
 
-const title =
-document.createElement("div");
-
-title.className = "videoTitle";
-
-title.textContent =
-video.title || "Kulzzy Radio Video";
+    }
 
 
-const date =
-document.createElement("div");
+    videos.forEach(function(video){
 
-date.className = "videoDate";
+        const card =
+            document.createElement("div");
 
-if(video.date){
-
-date.textContent =
-new Date(video.date).toLocaleDateString();
-
-}
+        card.className =
+            "video-card";
 
 
-info.appendChild(title);
-
-info.appendChild(date);
-
-
-card.appendChild(thumbnail);
-
-card.appendChild(info);
+        const thumbnail =
+            getThumbnail(video);
 
 
-card.onclick = function(){
+        card.innerHTML = `
 
-openVideo(video);
+            <div class="video-thumbnail">
 
-};
+                ${
+                    thumbnail
+                    ?
+                    `<img
+                        src="${escapeHtml(thumbnail)}"
+                        alt="${escapeHtml(video.title || "Video")}"
+                        loading="lazy">`
+                    :
+                    ""
+                }
+
+                <div class="play-button">
+                    ▶
+                </div>
+
+            </div>
+
+            <div class="video-info">
+
+                <div class="video-title">
+
+                    ${escapeHtml(
+                        video.title ||
+                        "Kulzzy Radio Audiovisual"
+                    )}
+
+                </div>
+
+            </div>
+
+        `;
 
 
-videoGrid.appendChild(card);
+        card.addEventListener(
+            "click",
+            function(){
 
-});
+                openVideo(video);
+
+            }
+        );
+
+
+        videoGrid.appendChild(card);
+
+    });
 
 }
 
 
-function tellRadio(action){
-
-window.parent.postMessage({
-
-source:"KULZZY_AUDIOVISUALS",
-
-action:action
-
-},"*");
-
-}
-
+/*
+==========================================================
+OPEN VIDEO
+==========================================================
+*/
 
 function openVideo(video){
 
-playerTitle.textContent =
-video.title || "Kulzzy Radio Video";
-
-tellRadio("VIDEO_PLAY");
-
-videoPlayer.src = video.url;
-
-modal.classList.add("show");
-
-videoPlayer.currentTime = 0;
-
-videoPlayer.play().catch(function(){
-
-});
-
-}
+    if(!video.url){
+        return;
+    }
 
 
-function closeVideo(){
+    /*
+    Tell parent Kulzzy Radio page
+    to pause the live audio.
+    */
 
-videoPlayer.pause();
+    window.parent.postMessage({
 
-videoPlayer.removeAttribute("src");
+        source:
+        "KULZZY_AUDIOVISUALS",
 
-videoPlayer.load();
+        action:
+        "VIDEO_PLAY"
 
-modal.classList.remove("show");
-
-tellRadio("VIDEO_CLOSE");
-
-}
-
-
-videoPlayer.addEventListener(
-"ended",
-function(){
-
-tellRadio("VIDEO_ENDED");
-
-closeVideo();
-
-});
+    },"*");
 
 
-closeBtn.onclick = function(){
+    mainVideo.src =
+        video.url;
 
-closeVideo();
+    modalTitle.textContent =
+        video.title ||
+        "Kulzzy Radio Audiovisual";
 
-};
+
+    videoModal.classList.add(
+        "active"
+    );
 
 
-modal.addEventListener(
-"click",
-function(event){
+    mainVideo.play().catch(function(error){
 
-if(event.target === modal){
+        console.log(
+            "Autoplay requires user interaction:",
+            error
+        );
 
-closeVideo();
+    });
 
 }
 
-});
 
+/*
+==========================================================
+VIDEO ENDED
+==========================================================
+*/
 
-document.addEventListener(
-"keydown",
-function(event){
+mainVideo.addEventListener(
+    "ended",
+    function(){
 
-if(
-event.key === "Escape" &&
-modal.classList.contains("show")
-){
+        resumeRadio();
 
-closeVideo();
-
-}
-
-});
-
-
-shareBtn.onclick = async function(){
-
-const shareData = {
-
-title:"Kulzzy Radio AUDIOVISUALS",
-
-text:"Watch Kulzzy Radio AUDIOVISUALS",
-
-url:window.location.href
-
-};
-
-try{
-
-if(navigator.share){
-
-await navigator.share(shareData);
-
-}else{
-
-await navigator.clipboard.writeText(
-window.location.href
+    }
 );
 
-showToast("Channel link copied");
 
-}
+/*
+==========================================================
+CLOSE VIDEO
+==========================================================
+*/
 
-}catch(error){
+window.closeVideo =
+function(){
 
-}
+    mainVideo.pause();
+
+    mainVideo.removeAttribute(
+        "src"
+    );
+
+    mainVideo.load();
+
+    videoModal.classList.remove(
+        "active"
+    );
+
+
+    resumeRadio();
 
 };
 
 
-function showToast(message){
+/*
+==========================================================
+RESUME RADIO
+==========================================================
+*/
 
-toast.textContent = message;
+function resumeRadio(){
 
-toast.classList.add("show");
+    window.parent.postMessage({
 
-setTimeout(function(){
+        source:
+        "KULZZY_AUDIOVISUALS",
 
-toast.classList.remove("show");
+        action:
+        "VIDEO_ENDED"
 
-},2200);
+    },"*");
 
 }
 
 
-renderVideos();
+/*
+==========================================================
+CLICK OUTSIDE MODAL
+==========================================================
+*/
+
+videoModal.addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target ===
+            videoModal
+        ){
+
+            closeVideo();
+
+        }
+
+    }
+);
+
+
+/*
+==========================================================
+ESCAPE KEY
+==========================================================
+*/
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Escape" &&
+            videoModal.classList.contains("active")
+        ){
+
+            closeVideo();
+
+        }
+
+    }
+);
+
+
+/*
+==========================================================
+SHARE PAGE
+==========================================================
+*/
+
+window.sharePage =
+function(){
+
+    const shareData = {
+
+        title:
+        "Kulzzy Radio Audiovisuals",
+
+        text:
+        "Watch Kulzzy Radio Audiovisuals",
+
+        url:
+        window.location.href
+
+    };
+
+
+    if(
+        navigator.share
+    ){
+
+        navigator.share(
+            shareData
+        ).catch(function(){
+
+        });
+
+    }else{
+
+        navigator.clipboard.writeText(
+            window.location.href
+        ).then(function(){
+
+            alert(
+                "Audiovisuals link copied."
+            );
+
+        }).catch(function(){
+
+            alert(
+                window.location.href
+            );
+
+        });
+
+    }
+
+};
+
+
+/*
+==========================================================
+HTML ESCAPE
+==========================================================
+*/
+
+function escapeHtml(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
 
 </script>
 
