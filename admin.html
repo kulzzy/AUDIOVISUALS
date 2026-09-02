@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -28,14 +29,14 @@ body{
     width:100%;
     max-width:900px;
     margin:auto;
-    padding:20px;
+    padding:15px;
 }
 
 .header{
     text-align:center;
     padding:20px 10px;
     border-bottom:2px solid #d4af37;
-    margin-bottom:25px;
+    margin-bottom:20px;
 }
 
 .header h1{
@@ -45,7 +46,7 @@ body{
 
 .header p{
     margin-top:6px;
-    color:#ddd;
+    color:#ccc;
 }
 
 .panel{
@@ -53,12 +54,11 @@ body{
     border:1px solid rgba(255,215,0,.3);
     border-radius:12px;
     padding:20px;
-    margin-bottom:20px;
+    margin-bottom:18px;
 }
 
 .panel h2{
     color:#ffd700;
-    font-size:20px;
     margin-bottom:18px;
 }
 
@@ -68,24 +68,20 @@ label{
     font-weight:bold;
 }
 
-input[type="email"],
-input[type="password"],
-input[type="text"],
-input[type="file"]{
+input{
     width:100%;
     padding:13px;
+    margin-bottom:15px;
     border:none;
     border-radius:7px;
-    margin-bottom:15px;
-    background:#fff;
-    color:#111;
+    font-size:15px;
 }
 
 button{
     border:none;
     border-radius:7px;
     padding:12px 18px;
-    font-weight:bold;
+    font-weight:900;
     cursor:pointer;
 }
 
@@ -97,21 +93,25 @@ button{
 
 .logout-button{
     background:#b00020;
-    color:white;
+    color:#fff;
+}
+
+.delete-button{
+    background:#d00000;
+    color:#fff;
 }
 
 button:disabled{
     opacity:.5;
-    cursor:not-allowed;
 }
 
 .status{
+    display:none;
     margin-top:15px;
     padding:12px;
-    border-radius:7px;
     background:#07172f;
-    color:#ddd;
-    display:none;
+    border-radius:7px;
+    color:#fff;
 }
 
 .status.show{
@@ -119,20 +119,19 @@ button:disabled{
 }
 
 .progress{
+    display:none;
     width:100%;
     height:12px;
-    background:#020b19;
+    margin-top:15px;
+    background:#020914;
     border-radius:10px;
     overflow:hidden;
-    margin-top:15px;
-    display:none;
 }
 
 .progress-bar{
     width:0%;
     height:100%;
     background:#ffd700;
-    transition:width .2s;
 }
 
 .admin-area{
@@ -150,13 +149,13 @@ button:disabled{
 }
 
 .video-item{
-    background:#071a38;
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:9px;
-    padding:12px;
     display:flex;
     align-items:center;
     gap:12px;
+    background:#071a38;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:8px;
+    padding:12px;
 }
 
 .video-thumb{
@@ -185,15 +184,9 @@ button:disabled{
 }
 
 .video-date{
+    margin-top:5px;
     font-size:12px;
     color:#aaa;
-    margin-top:5px;
-}
-
-.delete-button{
-    background:#d00000;
-    color:white;
-    flex-shrink:0;
 }
 
 .hidden{
@@ -211,7 +204,6 @@ button:disabled{
     }
 
     .video-item{
-        align-items:flex-start;
         flex-wrap:wrap;
     }
 
@@ -233,179 +225,197 @@ button:disabled{
 
 <div class="container">
 
-    <div class="header">
+<header class="header">
 
-        <h1>
-            KULZZY RADIO
-            AUDIOVISUALS ADMIN
-        </h1>
+    <h1>
+        KULZZY RADIO AUDIOVISUALS ADMIN
+    </h1>
 
-        <p>
-            Upload and publish audiovisual videos
-        </p>
+    <p>
+        Upload and publish audiovisuals
+    </p>
 
-    </div>
+</header>
 
 
-    <!-- =================================================
-         LOGIN
-    ================================================== -->
+<!-- LOGIN -->
+
+<div
+    id="loginPanel"
+    class="panel">
+
+    <h2>
+        ADMIN LOGIN
+    </h2>
+
+    <label>
+        Email
+    </label>
+
+    <input
+        id="email"
+        type="email"
+        placeholder="Admin email">
+
+
+    <label>
+        Password
+    </label>
+
+    <input
+        id="password"
+        type="password"
+        placeholder="Admin password">
+
+
+    <button
+        id="loginButton"
+        class="login-button">
+
+        LOGIN
+
+    </button>
+
 
     <div
-        id="loginPanel"
-        class="panel">
-
-        <h2>
-            ADMIN LOGIN
-        </h2>
-
-        <label>
-            Email
-        </label>
-
-        <input
-            id="email"
-            type="email"
-            placeholder="Admin email">
-
-
-        <label>
-            Password
-        </label>
-
-        <input
-            id="password"
-            type="password"
-            placeholder="Admin password">
-
-
-        <button
-            id="loginButton"
-            class="login-button">
-
-            LOGIN
-
-        </button>
-
-
-        <div
-            id="loginStatus"
-            class="status">
-        </div>
-
-    </div>
-
-
-    <!-- =================================================
-         ADMIN AREA
-    ================================================== -->
-
-    <div
-        id="adminArea"
-        class="admin-area">
-
-
-        <!-- UPLOAD -->
-
-        <div class="panel">
-
-            <h2>
-                UPLOAD AUDIOVISUAL
-            </h2>
-
-
-            <label>
-                Video Title
-            </label>
-
-            <input
-                id="videoTitle"
-                type="text"
-                placeholder="Enter video title">
-
-
-            <label>
-                Select Video
-            </label>
-
-            <input
-                id="videoFile"
-                type="file"
-                accept="video/*">
-
-
-            <button
-                id="uploadButton"
-                class="upload-button">
-
-                UPLOAD & PUBLISH
-
-            </button>
-
-
-            <div
-                id="uploadStatus"
-                class="status">
-            </div>
-
-
-            <div
-                id="progress"
-                class="progress">
-
-                <div
-                    id="progressBar"
-                    class="progress-bar">
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- PUBLISHED VIDEOS -->
-
-        <div class="panel">
-
-            <h2>
-                PUBLISHED VIDEOS
-            </h2>
-
-            <div
-                id="videoList"
-                class="video-list">
-
-                Loading...
-
-            </div>
-
-        </div>
-
-
-        <div class="panel">
-
-            <button
-                id="logoutButton"
-                class="logout-button">
-
-                LOGOUT
-
-            </button>
-
-        </div>
-
+        id="loginStatus"
+        class="status">
     </div>
 
 </div>
 
 
+<!-- ADMIN -->
+
+<div
+    id="adminArea"
+    class="admin-area">
+
+
+    <!-- UPLOAD -->
+
+    <div class="panel">
+
+        <h2>
+            UPLOAD AUDIOVISUAL
+        </h2>
+
+
+        <label>
+            Video Title
+        </label>
+
+        <input
+            id="videoTitle"
+            type="text"
+            placeholder="Enter video title">
+
+
+        <label>
+            Select Video
+        </label>
+
+        <input
+            id="videoFile"
+            type="file"
+            accept="video/*">
+
+
+        <button
+            id="uploadButton"
+            class="upload-button">
+
+            UPLOAD & PUBLISH
+
+        </button>
+
+
+        <div
+            id="uploadStatus"
+            class="status">
+        </div>
+
+
+        <div
+            id="progress"
+            class="progress">
+
+            <div
+                id="progressBar"
+                class="progress-bar">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- VIDEO LIST -->
+
+    <div class="panel">
+
+        <h2>
+            PUBLISHED VIDEOS
+        </h2>
+
+        <div
+            id="videoList"
+            class="video-list">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+
+    <!-- LOGOUT -->
+
+    <div class="panel">
+
+        <button
+            id="logoutButton"
+            class="logout-button">
+
+            LOGOUT
+
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
+
 <script type="module">
 
-/*
-==========================================================
-FIREBASE CONFIG
-==========================================================
-*/
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getDatabase,
+    ref,
+    push,
+    set,
+    remove,
+    onValue
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+/* FIREBASE CONFIG */
 
 const firebaseConfig = {
 
@@ -432,41 +442,11 @@ const firebaseConfig = {
 
     measurementId:
     "G-HE48JBFLD6"
+
 };
 
 
-/*
-==========================================================
-FIREBASE IMPORTS
-==========================================================
-*/
-
-import {
-    initializeApp
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-import {
-    getDatabase,
-    ref,
-    push,
-    set,
-    remove,
-    onValue
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-/*
-==========================================================
-INITIALIZE
-==========================================================
-*/
+/* INITIALIZE */
 
 const app =
     initializeApp(firebaseConfig);
@@ -478,11 +458,7 @@ const auth =
     getAuth(app);
 
 
-/*
-==========================================================
-ELEMENTS
-==========================================================
-*/
+/* ELEMENTS */
 
 const loginPanel =
     document.getElementById("loginPanel");
@@ -490,20 +466,20 @@ const loginPanel =
 const adminArea =
     document.getElementById("adminArea");
 
+const email =
+    document.getElementById("email");
+
+const password =
+    document.getElementById("password");
+
 const loginButton =
     document.getElementById("loginButton");
 
-const logoutButton =
-    document.getElementById("logoutButton");
-
-const emailInput =
-    document.getElementById("email");
-
-const passwordInput =
-    document.getElementById("password");
-
 const loginStatus =
     document.getElementById("loginStatus");
+
+const logoutButton =
+    document.getElementById("logoutButton");
 
 const videoTitle =
     document.getElementById("videoTitle");
@@ -527,11 +503,7 @@ const videoList =
     document.getElementById("videoList");
 
 
-/*
-==========================================================
-STATUS
-==========================================================
-*/
+/* STATUS */
 
 function showStatus(
     element,
@@ -548,11 +520,7 @@ function showStatus(
 }
 
 
-/*
-==========================================================
-AUTH STATE
-==========================================================
-*/
+/* AUTH STATE */
 
 onAuthStateChanged(
     auth,
@@ -586,24 +554,23 @@ onAuthStateChanged(
 );
 
 
-/*
-==========================================================
-LOGIN
-==========================================================
-*/
+/* LOGIN */
 
 loginButton.addEventListener(
     "click",
     async function(){
 
-        const email =
-            emailInput.value.trim();
+        const userEmail =
+            email.value.trim();
 
-        const password =
-            passwordInput.value;
+        const userPassword =
+            password.value;
 
 
-        if(!email || !password){
+        if(
+            !userEmail ||
+            !userPassword
+        ){
 
             showStatus(
                 loginStatus,
@@ -626,8 +593,8 @@ loginButton.addEventListener(
 
             await signInWithEmailAndPassword(
                 auth,
-                email,
-                password
+                userEmail,
+                userPassword
             );
 
 
@@ -659,11 +626,7 @@ loginButton.addEventListener(
 );
 
 
-/*
-==========================================================
-LOGOUT
-==========================================================
-*/
+/* LOGOUT */
 
 logoutButton.addEventListener(
     "click",
@@ -675,19 +638,11 @@ logoutButton.addEventListener(
 );
 
 
-/*
-==========================================================
-UPLOAD TO CLOUDINARY
-==========================================================
-*/
+/* UPLOAD */
 
 uploadButton.addEventListener(
     "click",
-    function(){
-
-        uploadVideo();
-
-    }
+    uploadVideo
 );
 
 
@@ -716,7 +671,7 @@ async function uploadVideo(){
 
         showStatus(
             uploadStatus,
-            "Select a video first."
+            "Select a video."
         );
 
         return;
@@ -750,243 +705,208 @@ async function uploadVideo(){
         "0%";
 
 
-    try{
-
-        const formData =
-            new FormData();
+    const formData =
+        new FormData();
 
 
-        formData.append(
-            "file",
-            file
-        );
+    formData.append(
+        "file",
+        file
+    );
 
 
-        formData.append(
-            "upload_preset",
-            "audiovisuals"
-        );
+    formData.append(
+        "upload_preset",
+        "audiovisuals"
+    );
 
 
-        const xhr =
-            new XMLHttpRequest();
+    const xhr =
+        new XMLHttpRequest();
 
 
-        xhr.open(
-            "POST",
-            "https://api.cloudinary.com/v1_1/s4j0x7dk/video/upload"
-        );
+    xhr.open(
+        "POST",
+        "https://api.cloudinary.com/v1_1/s4j0x7dk/video/upload"
+    );
 
 
-        xhr.upload.addEventListener(
-            "progress",
-            function(event){
+    xhr.upload.addEventListener(
+        "progress",
+        function(event){
 
-                if(event.lengthComputable){
+            if(event.lengthComputable){
 
-                    const percent =
-                        Math.round(
-                            (event.loaded /
-                            event.total) *
-                            100
-                        );
-
-                    progressBar.style.width =
-                        percent + "%";
-
-                    showStatus(
-                        uploadStatus,
-                        "Uploading video... " +
-                        percent +
-                        "%"
+                const percent =
+                    Math.round(
+                        event.loaded /
+                        event.total *
+                        100
                     );
 
-                }
-
-            }
-        );
-
-
-        xhr.onload =
-            async function(){
-
-                try{
-
-                    const result =
-                        JSON.parse(
-                            xhr.responseText
-                        );
-
-
-                    if(
-                        xhr.status < 200 ||
-                        xhr.status >= 300
-                    ){
-
-                        throw new Error(
-                            result.error &&
-                            result.error.message
-                            ?
-                            result.error.message
-                            :
-                            "Cloudinary upload failed."
-                        );
-
-                    }
-
-
-                    /*
-                    CLOUDINARY VIDEO URL
-                    */
-
-                    const videoUrl =
-                        result.secure_url;
-
-
-                    const publicId =
-                        result.public_id;
-
-
-                    /*
-                    CLOUDINARY THUMBNAIL
-                    */
-
-                    const thumbnail =
-                        "https://res.cloudinary.com/s4j0x7dk/video/upload/so_0/" +
-                        publicId +
-                        ".jpg";
-
-
-                    /*
-                    SAVE METADATA TO FIREBASE
-                    */
-
-                    const newVideoRef =
-                        push(
-                            ref(
-                                database,
-                                "videos"
-                            )
-                        );
-
-
-                    await set(
-                        newVideoRef,
-                        {
-
-                            title:
-                                title,
-
-                            url:
-                                videoUrl,
-
-                            publicId:
-                                publicId,
-
-                            thumbnail:
-                                thumbnail,
-
-                            published:
-                                true,
-
-                            createdAt:
-                                Date.now(),
-
-                            uploadedBy:
-                                auth.currentUser.uid
-
-                        }
-                    );
-
-
-                    showStatus(
-                        uploadStatus,
-                        "Video uploaded and published successfully."
-                    );
-
-
-                    videoTitle.value =
-                        "";
-
-                    videoFile.value =
-                        "";
-
-                    progressBar.style.width =
-                        "100%";
-
-
-                }catch(error){
-
-                    console.error(error);
-
-                    showStatus(
-                        uploadStatus,
-                        "Error: " +
-                        error.message
-                    );
-
-                }
-
-
-                uploadButton.disabled =
-                    false;
-
-                uploadButton.textContent =
-                    "UPLOAD & PUBLISH";
-
-            };
-
-
-        xhr.onerror =
-            function(){
+                progressBar.style.width =
+                    percent + "%";
 
                 showStatus(
                     uploadStatus,
-                    "Network error while uploading."
+                    "Uploading video... " +
+                    percent +
+                    "%"
+                );
+
+            }
+
+        }
+    );
+
+
+    xhr.onload =
+        async function(){
+
+            try{
+
+                const result =
+                    JSON.parse(
+                        xhr.responseText
+                    );
+
+
+                if(
+                    xhr.status < 200 ||
+                    xhr.status >= 300
+                ){
+
+                    throw new Error(
+                        result.error &&
+                        result.error.message
+                        ?
+                        result.error.message
+                        :
+                        "Cloudinary upload failed."
+                    );
+
+                }
+
+
+                const videoUrl =
+                    result.secure_url;
+
+                const publicId =
+                    result.public_id;
+
+
+                const thumbnail =
+                    "https://res.cloudinary.com/s4j0x7dk/video/upload/so_0/" +
+                    publicId +
+                    ".jpg";
+
+
+                /*
+                SAVE VIDEO TO FIREBASE
+                */
+
+                const newVideo =
+                    push(
+                        ref(
+                            database,
+                            "videos"
+                        )
+                    );
+
+
+                await set(
+                    newVideo,
+                    {
+
+                        title:
+                            title,
+
+                        url:
+                            videoUrl,
+
+                        publicId:
+                            publicId,
+
+                        thumbnail:
+                            thumbnail,
+
+                        published:
+                            true,
+
+                        createdAt:
+                            Date.now(),
+
+                        uploadedBy:
+                            auth.currentUser.uid
+
+                    }
                 );
 
 
-                uploadButton.disabled =
-                    false;
-
-                uploadButton.textContent =
-                    "UPLOAD & PUBLISH";
-
-            };
+                showStatus(
+                    uploadStatus,
+                    "Video uploaded and published successfully."
+                );
 
 
-        xhr.send(
-            formData
-        );
+                videoTitle.value =
+                    "";
+
+                videoFile.value =
+                    "";
+
+                progressBar.style.width =
+                    "100%";
 
 
-    }catch(error){
+            }catch(error){
 
-        console.error(error);
+                console.error(error);
 
-        showStatus(
-            uploadStatus,
-            "Upload failed: " +
-            error.message
-        );
+                showStatus(
+                    uploadStatus,
+                    "Error: " +
+                    error.message
+                );
+
+            }
 
 
-        uploadButton.disabled =
-            false;
+            uploadButton.disabled =
+                false;
 
-        uploadButton.textContent =
-            "UPLOAD & PUBLISH";
+            uploadButton.textContent =
+                "UPLOAD & PUBLISH";
 
-    }
+        };
+
+
+    xhr.onerror =
+        function(){
+
+            showStatus(
+                uploadStatus,
+                "Network error while uploading."
+            );
+
+
+            uploadButton.disabled =
+                false;
+
+            uploadButton.textContent =
+                "UPLOAD & PUBLISH";
+
+        };
+
+
+    xhr.send(
+        formData
+    );
 
 }
 
 
-/*
-==========================================================
-LOAD PUBLISHED VIDEOS
-==========================================================
-*/
+/* LOAD VIDEOS */
 
 function loadVideos(){
 
@@ -1021,35 +941,29 @@ function loadVideos(){
 
             const videos =
                 Object.keys(data)
-                    .map(function(key){
+                .map(function(key){
 
-                        return {
+                    return {
+                        id:key,
+                        ...data[key]
+                    };
 
-                            id:key,
-                            ...data[key]
+                })
+                .sort(function(a,b){
 
-                        };
-
-                    })
-                    .sort(function(a,b){
-
-                        return (
-                            Number(b.createdAt || 0) -
-                            Number(a.createdAt || 0)
-                        );
-
-                    });
-
-
-            videos.forEach(
-                function(video){
-
-                    createVideoItem(
-                        video
+                    return (
+                        Number(b.createdAt || 0) -
+                        Number(a.createdAt || 0)
                     );
 
-                }
-            );
+                });
+
+
+            videos.forEach(function(video){
+
+                createVideoItem(video);
+
+            });
 
         }
     );
@@ -1057,11 +971,7 @@ function loadVideos(){
 }
 
 
-/*
-==========================================================
-CREATE ADMIN VIDEO ITEM
-==========================================================
-*/
+/* ADMIN VIDEO ITEM */
 
 function createVideoItem(video){
 
@@ -1070,11 +980,6 @@ function createVideoItem(video){
 
     item.className =
         "video-item";
-
-
-    const thumbnail =
-        video.thumbnail ||
-        "";
 
 
     const date =
@@ -1092,10 +997,10 @@ function createVideoItem(video){
         <div class="video-thumb">
 
             ${
-                thumbnail
+                video.thumbnail
                 ?
                 `<img
-                    src="${escapeHtml(thumbnail)}"
+                    src="${escapeHtml(video.thumbnail)}"
                     alt="">`
                 :
                 ""
@@ -1158,27 +1063,23 @@ function createVideoItem(video){
 }
 
 
-/*
-==========================================================
-DELETE VIDEO FROM PUBLISHED CATALOGUE
-==========================================================
-*/
+/* DELETE FROM FIREBASE */
 
 async function deleteVideo(
     id,
     title
 ){
 
-    const confirmed =
-        confirm(
+    if(
+        !confirm(
             'Remove "' +
             title +
-            '" from AUDIOVISUALS?'
-        );
+            '" from the public audiovisuals?'
+        )
+    ){
 
-
-    if(!confirmed){
         return;
+
     }
 
 
@@ -1202,7 +1103,7 @@ async function deleteVideo(
         console.error(error);
 
         alert(
-            "Unable to delete video: " +
+            "Delete failed: " +
             error.message
         );
 
@@ -1211,11 +1112,7 @@ async function deleteVideo(
 }
 
 
-/*
-==========================================================
-HTML ESCAPE
-==========================================================
-*/
+/* ESCAPE HTML */
 
 function escapeHtml(value){
 
@@ -1231,4 +1128,5 @@ function escapeHtml(value){
 </script>
 
 </body>
+
 </html>
