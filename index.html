@@ -122,6 +122,7 @@ body{
     justify-content:center;
     color:#ffd700;
     font-size:25px;
+    pointer-events:none;
 }
 
 .info{
@@ -134,6 +135,25 @@ body{
     font-weight:800;
     line-height:1.35;
     word-break:break-word;
+}
+
+/* PERSONAL SHARE */
+
+.personal-share{
+    width:100%;
+    margin-top:10px;
+    padding:9px 10px;
+    border:none;
+    border-radius:7px;
+    background:#ffd700;
+    color:#06152f;
+    font-size:12px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.personal-share:active{
+    transform:scale(.98);
 }
 
 /* MESSAGE */
@@ -149,7 +169,7 @@ body{
     color:#ffd700;
 }
 
-/* SHARE */
+/* GENERAL SHARE */
 
 .share-area{
     text-align:center;
@@ -253,6 +273,11 @@ body{
         padding:9px;
     }
 
+    .personal-share{
+        font-size:11px;
+        padding:8px 5px;
+    }
+
 }
 
 /* SMALL PHONE */
@@ -276,6 +301,10 @@ body{
         width:45px;
         height:45px;
         font-size:19px;
+    }
+
+    .personal-share{
+        font-size:10px;
     }
 
 }
@@ -315,6 +344,8 @@ body{
 
     </div>
 
+
+    <!-- GENERAL SHARE -->
 
     <div class="share-area">
 
@@ -443,7 +474,9 @@ const shareButton =
     document.getElementById("shareButton");
 
 
-/* LOAD VIDEOS */
+/* =====================================================
+   LOAD VIDEOS
+===================================================== */
 
 const videosRef =
     ref(database,"videos");
@@ -457,6 +490,7 @@ onValue(
             snapshot.val();
 
         videoGrid.innerHTML = "";
+
 
         if(!data){
 
@@ -476,8 +510,11 @@ onValue(
             .map(function(key){
 
                 return {
+
                     id:key,
+
                     ...data[key]
+
                 };
 
             })
@@ -530,7 +567,9 @@ onValue(
 );
 
 
-/* CREATE VIDEO CARD */
+/* =====================================================
+   CREATE VIDEO CARD
+===================================================== */
 
 function createCard(video){
 
@@ -541,7 +580,7 @@ function createCard(video){
         "video-card";
 
 
-    let thumbnail =
+    const thumbnail =
         video.thumbnail || "";
 
 
@@ -577,10 +616,21 @@ function createCard(video){
 
             </div>
 
+
+            <button
+                class="personal-share"
+                type="button">
+
+                SHARE THIS AUDIOVISUAL
+
+            </button>
+
         </div>
 
     `;
 
+
+    /* OPEN VIDEO */
 
     card.addEventListener(
         "click",
@@ -592,37 +642,172 @@ function createCard(video){
     );
 
 
-    videoGrid.appendChild(card);
+    /* PERSONAL SHARE */
+
+    const personalShare =
+        card.querySelector(
+            ".personal-share"
+        );
+
+
+    personalShare.addEventListener(
+        "click",
+        async function(event){
+
+            /*
+            IMPORTANT:
+            Prevent the card from opening
+            the video when sharing.
+            */
+
+            event.stopPropagation();
+
+
+            const shareUrl =
+                video.url ||
+                window.location.href;
+
+
+            const shareData = {
+
+                title:
+                video.title ||
+                "Kulzzy Radio Audiovisual",
+
+                text:
+                "Watch " +
+                (
+                    video.title ||
+                    "this audiovisual"
+                ) +
+                " on Kulzzy Radio.",
+
+                url:
+                shareUrl
+
+            };
+
+
+            /* PHONE SHARE */
+
+            if(
+                navigator.share
+            ){
+
+                try{
+
+                    await navigator.share(
+                        shareData
+                    );
+
+                }catch(error){
+
+                    /*
+                    User cancelled sharing.
+                    */
+
+                }
+
+                return;
+
+            }
+
+
+            /* COPY LINK */
+
+            try{
+
+                await navigator.clipboard.writeText(
+                    shareUrl
+                );
+
+                alert(
+                    "Audiovisual link copied."
+                );
+
+            }catch(error){
+
+                alert(
+                    shareUrl
+                );
+
+            }
+
+        }
+    );
+
+
+    videoGrid.appendChild(
+        card
+    );
 
 }
 
 
-/* OPEN VIDEO */
+/* =====================================================
+   OPEN VIDEO
+===================================================== */
 
 function openVideo(video){
 
     if(!video.url){
+
         return;
+
     }
 
 
     /*
-    PAUSE KULZZY RADIO
+    Tell the MAIN KULZZY RADIO PAGE
+    to pause the radio audio.
+
+    This happens when the audiovisual
+    actually starts playing.
     */
 
-    window.parent.postMessage({
+    mainVideo.onplay =
+        function(){
 
-        source:
-        "KULZZY_AUDIOVISUALS",
+            window.parent.postMessage({
 
-        action:
-        "VIDEO_PLAY"
+                source:
+                "KULZZY_AUDIOVISUALS",
 
-    },"*");
+                action:
+                "VIDEO_PLAY"
 
+            },"*");
+
+        };
+
+
+    /*
+    If the user pauses the audiovisual,
+    DO NOT resume the radio.
+
+    The radio remains paused.
+    */
+
+    mainVideo.onpause =
+        function(){
+
+            /*
+            Intentionally do nothing.
+
+            Radio stays paused until the
+            audiovisual ends or is closed.
+            */
+
+        };
+
+
+    /*
+    Set video.
+    */
 
     mainVideo.src =
         video.url;
+
 
     modalTitle.textContent =
         video.title ||
@@ -634,14 +819,27 @@ function openVideo(video){
     );
 
 
-    mainVideo.play().catch(function(){
+    /*
+    Start audiovisual.
+    */
 
-    });
+    mainVideo.play().catch(
+        function(error){
+
+            console.log(
+                "Video autoplay/play was blocked:",
+                error
+            );
+
+        }
+    );
 
 }
 
 
-/* VIDEO FINISHED */
+/* =====================================================
+   VIDEO ENDED
+===================================================== */
 
 mainVideo.addEventListener(
     "ended",
@@ -653,22 +851,43 @@ mainVideo.addEventListener(
 );
 
 
-/* CLOSE VIDEO */
+/* =====================================================
+   CLOSE VIDEO
+===================================================== */
 
 function closeVideo(){
 
+    /*
+    Pause first.
+    */
+
     mainVideo.pause();
+
+
+    /*
+    Remove video source.
+    */
 
     mainVideo.removeAttribute(
         "src"
     );
 
+
     mainVideo.load();
+
+
+    /*
+    Close modal.
+    */
 
     videoModal.classList.remove(
         "active"
     );
 
+
+    /*
+    Resume main radio.
+    */
 
     resumeRadio();
 
@@ -683,7 +902,9 @@ closeButton.addEventListener(
 );
 
 
-/* RESUME RADIO */
+/* =====================================================
+   RESUME RADIO
+===================================================== */
 
 function resumeRadio(){
 
@@ -700,7 +921,9 @@ function resumeRadio(){
 }
 
 
-/* CLICK OUTSIDE */
+/* =====================================================
+   CLICK OUTSIDE
+===================================================== */
 
 videoModal.addEventListener(
     "click",
@@ -719,7 +942,9 @@ videoModal.addEventListener(
 );
 
 
-/* ESCAPE */
+/* =====================================================
+   ESCAPE
+===================================================== */
 
 document.addEventListener(
     "keydown",
@@ -738,7 +963,9 @@ document.addEventListener(
 );
 
 
-/* SHARE */
+/* =====================================================
+   GENERAL SHARE
+===================================================== */
 
 shareButton.addEventListener(
     "click",
@@ -770,6 +997,10 @@ shareButton.addEventListener(
 
             }catch(error){
 
+                /*
+                User cancelled sharing.
+                */
+
             }
 
         }else{
@@ -798,7 +1029,9 @@ shareButton.addEventListener(
 );
 
 
-/* ESCAPE HTML */
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
 function escapeHtml(value){
 
@@ -814,4 +1047,5 @@ function escapeHtml(value){
 </script>
 
 </body>
+
 </html>
