@@ -1,0 +1,1949 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Kulzzy Radio Audiovisuals Admin</title>
+
+<style>
+
+/* =====================================================
+   BASIC
+===================================================== */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:#06152f;
+    color:white;
+    font-family:Arial,Helvetica,sans-serif;
+    min-height:100vh;
+}
+
+.container{
+    width:100%;
+    max-width:900px;
+    margin:auto;
+    padding:15px;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+    text-align:center;
+    padding:20px 10px;
+    border-bottom:2px solid #d4af37;
+    margin-bottom:20px;
+}
+
+.header h1{
+    color:#ffd700;
+    font-size:25px;
+}
+
+.header p{
+    margin-top:6px;
+    color:#ccc;
+}
+
+
+/* =====================================================
+   PANEL
+===================================================== */
+
+.panel{
+    background:#0b2247;
+    border:1px solid rgba(255,215,0,.3);
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:18px;
+}
+
+.panel h2{
+    color:#ffd700;
+    margin-bottom:18px;
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+label{
+    display:block;
+    margin-bottom:7px;
+    font-weight:bold;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    margin-bottom:15px;
+    border:none;
+    border-radius:7px;
+    font-size:15px;
+}
+
+input[type="file"]{
+    background:white;
+    color:#06152f;
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+button{
+    border:none;
+    border-radius:7px;
+    padding:12px 18px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+.login-button,
+.upload-button{
+    background:#ffd700;
+    color:#06152f;
+}
+
+.logout-button{
+    background:#b00020;
+    color:#fff;
+}
+
+.delete-button{
+    background:#d00000;
+    color:#fff;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status{
+    display:none;
+    margin-top:15px;
+    padding:12px;
+    background:#07172f;
+    border-radius:7px;
+    color:#fff;
+    line-height:1.5;
+    word-break:break-word;
+}
+
+.status.show{
+    display:block;
+}
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+.progress{
+    display:none;
+    width:100%;
+    height:14px;
+    margin-top:15px;
+    background:#020914;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    width:0%;
+    height:100%;
+    background:#ffd700;
+    transition:width .2s ease;
+}
+
+.progress-text{
+    display:none;
+    margin-top:7px;
+    text-align:center;
+    color:#ffd700;
+    font-size:13px;
+    font-weight:bold;
+}
+
+
+/* =====================================================
+   ADMIN
+===================================================== */
+
+.admin-area{
+    display:none;
+}
+
+.admin-area.active{
+    display:block;
+}
+
+
+/* =====================================================
+   VIDEO LIST
+===================================================== */
+
+.video-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.video-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#071a38;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:8px;
+    padding:12px;
+}
+
+.video-thumb{
+    width:120px;
+    aspect-ratio:16/9;
+    background:#000;
+    border-radius:6px;
+    overflow:hidden;
+    flex-shrink:0;
+}
+
+.video-thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.video-details{
+    flex:1;
+    min-width:0;
+}
+
+.video-name{
+    font-weight:bold;
+    word-break:break-word;
+}
+
+.video-date{
+    margin-top:5px;
+    font-size:12px;
+    color:#aaa;
+}
+
+
+/* =====================================================
+   INFO
+===================================================== */
+
+.file-info{
+    display:none;
+    margin-top:-5px;
+    margin-bottom:15px;
+    color:#bbb;
+    font-size:13px;
+}
+
+.file-info.show{
+    display:block;
+}
+
+
+/* =====================================================
+   HIDDEN
+===================================================== */
+
+.hidden{
+    display:none!important;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:600px){
+
+    .container{
+        padding:10px;
+    }
+
+    .panel{
+        padding:15px;
+    }
+
+    .header h1{
+        font-size:21px;
+    }
+
+    .video-item{
+        flex-wrap:wrap;
+    }
+
+    .video-details{
+        width:calc(100% - 132px);
+    }
+
+    .delete-button{
+        width:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <h1>
+        KULZZY RADIO AUDIOVISUALS ADMIN
+    </h1>
+
+    <p>
+        Upload and publish audiovisuals
+    </p>
+
+</header>
+
+
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+<div
+    id="loginPanel"
+    class="panel">
+
+    <h2>
+        ADMIN LOGIN
+    </h2>
+
+
+    <label>
+        Email
+    </label>
+
+    <input
+        id="email"
+        type="email"
+        placeholder="Admin email"
+        autocomplete="username">
+
+
+    <label>
+        Password
+    </label>
+
+    <input
+        id="password"
+        type="password"
+        placeholder="Admin password"
+        autocomplete="current-password">
+
+
+    <button
+        id="loginButton"
+        class="login-button">
+
+        LOGIN
+
+    </button>
+
+
+    <div
+        id="loginStatus"
+        class="status">
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     ADMIN AREA
+===================================================== -->
+
+<div
+    id="adminArea"
+    class="admin-area">
+
+
+    <!-- =================================================
+         UPLOAD PANEL
+    ================================================== -->
+
+    <div class="panel">
+
+        <h2>
+            UPLOAD AUDIOVISUAL
+        </h2>
+
+
+        <label>
+            Video Title
+        </label>
+
+        <input
+            id="videoTitle"
+            type="text"
+            placeholder="Enter video title"
+            maxlength="200">
+
+
+        <label>
+            Select Video
+        </label>
+
+        <input
+            id="videoFile"
+            type="file"
+            accept="video/*">
+
+
+        <div
+            id="fileInfo"
+            class="file-info">
+        </div>
+
+
+        <button
+            id="uploadButton"
+            class="upload-button">
+
+            UPLOAD & PUBLISH
+
+        </button>
+
+
+        <div
+            id="uploadStatus"
+            class="status">
+        </div>
+
+
+        <div
+            id="progress"
+            class="progress">
+
+            <div
+                id="progressBar"
+                class="progress-bar">
+            </div>
+
+        </div>
+
+
+        <div
+            id="progressText"
+            class="progress-text">
+
+            0%
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         PUBLISHED VIDEOS
+    ================================================== -->
+
+    <div class="panel">
+
+        <h2>
+            PUBLISHED VIDEOS
+        </h2>
+
+        <div
+            id="videoList"
+            class="video-list">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         LOGOUT
+    ================================================== -->
+
+    <div class="panel">
+
+        <button
+            id="logoutButton"
+            class="logout-button">
+
+            LOGOUT
+
+        </button>
+
+    </div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+import {
+    getDatabase,
+    ref,
+    push,
+    set,
+    remove,
+    onValue
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyCheGUZWbyh3IS4l_MbToCyBgYDre8ZU_M",
+
+    authDomain:
+    "audiovisuals-500cf.firebaseapp.com",
+
+    databaseURL:
+    "https://audiovisuals-500cf-default-rtdb.europe-west1.firebasedatabase.app",
+
+    projectId:
+    "audiovisuals-500cf",
+
+    storageBucket:
+    "audiovisuals-500cf.firebasestorage.app",
+
+    messagingSenderId:
+    "34375747661",
+
+    appId:
+    "1:34375747661:web:94ec087328dc5daebd3404",
+
+    measurementId:
+    "G-HE48JBFLD6"
+
+};
+
+
+
+/* =====================================================
+   CLOUDINARY
+===================================================== */
+
+const CLOUDINARY_CLOUD_NAME =
+    "s4j0x7dk";
+
+const CLOUDINARY_UPLOAD_PRESET =
+    "audiovisuals";
+
+const CLOUDINARY_UPLOAD_URL =
+    "https://api.cloudinary.com/v1_1/" +
+    CLOUDINARY_CLOUD_NAME +
+    "/video/upload";
+
+
+
+/* =====================================================
+   INITIALIZE FIREBASE
+===================================================== */
+
+const app =
+    initializeApp(firebaseConfig);
+
+const database =
+    getDatabase(app);
+
+const auth =
+    getAuth(app);
+
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const loginPanel =
+    document.getElementById("loginPanel");
+
+const adminArea =
+    document.getElementById("adminArea");
+
+const email =
+    document.getElementById("email");
+
+const password =
+    document.getElementById("password");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const loginStatus =
+    document.getElementById("loginStatus");
+
+const logoutButton =
+    document.getElementById("logoutButton");
+
+const videoTitle =
+    document.getElementById("videoTitle");
+
+const videoFile =
+    document.getElementById("videoFile");
+
+const fileInfo =
+    document.getElementById("fileInfo");
+
+const uploadButton =
+    document.getElementById("uploadButton");
+
+const uploadStatus =
+    document.getElementById("uploadStatus");
+
+const progress =
+    document.getElementById("progress");
+
+const progressBar =
+    document.getElementById("progressBar");
+
+const progressText =
+    document.getElementById("progressText");
+
+const videoList =
+    document.getElementById("videoList");
+
+
+
+/* =====================================================
+   STATUS FUNCTION
+===================================================== */
+
+function showStatus(
+    element,
+    message
+){
+
+    element.textContent =
+        message;
+
+    element.classList.add(
+        "show"
+    );
+
+}
+
+
+
+function hideStatus(
+    element
+){
+
+    element.textContent =
+        "";
+
+    element.classList.remove(
+        "show"
+    );
+
+}
+
+
+
+/* =====================================================
+   FILE SIZE
+===================================================== */
+
+function formatFileSize(
+    bytes
+){
+
+    if(bytes < 1024){
+
+        return bytes +
+            " B";
+
+    }
+
+    if(bytes < 1024 * 1024){
+
+        return (
+            bytes /
+            1024
+        ).toFixed(1) +
+        " KB";
+
+    }
+
+    if(bytes < 1024 * 1024 * 1024){
+
+        return (
+            bytes /
+            (1024 * 1024)
+        ).toFixed(2) +
+        " MB";
+
+    }
+
+    return (
+        bytes /
+        (1024 * 1024 * 1024)
+    ).toFixed(2) +
+    " GB";
+
+}
+
+
+
+/* =====================================================
+   FILE SELECTED
+===================================================== */
+
+videoFile.addEventListener(
+    "change",
+    function(){
+
+        const file =
+            videoFile.files[0];
+
+        if(!file){
+
+            fileInfo.classList.remove(
+                "show"
+            );
+
+            fileInfo.textContent =
+                "";
+
+            return;
+
+        }
+
+
+        fileInfo.textContent =
+            "Selected: " +
+            file.name +
+            " • " +
+            formatFileSize(
+                file.size
+            );
+
+
+        fileInfo.classList.add(
+            "show"
+        );
+
+    }
+);
+
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+onAuthStateChanged(
+    auth,
+    function(user){
+
+        if(user){
+
+            loginPanel.classList.add(
+                "hidden"
+            );
+
+            adminArea.classList.add(
+                "active"
+            );
+
+            loadVideos();
+
+        }else{
+
+            loginPanel.classList.remove(
+                "hidden"
+            );
+
+            adminArea.classList.remove(
+                "active"
+            );
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+loginButton.addEventListener(
+    "click",
+    async function(){
+
+        const userEmail =
+            email.value.trim();
+
+        const userPassword =
+            password.value;
+
+
+        hideStatus(
+            loginStatus
+        );
+
+
+        if(!userEmail){
+
+            showStatus(
+                loginStatus,
+                "Enter your admin email."
+            );
+
+            return;
+
+        }
+
+
+        if(!userPassword){
+
+            showStatus(
+                loginStatus,
+                "Enter your admin password."
+            );
+
+            return;
+
+        }
+
+
+        loginButton.disabled =
+            true;
+
+        loginButton.textContent =
+            "LOGGING IN...";
+
+
+        try{
+
+            await signInWithEmailAndPassword(
+                auth,
+                userEmail,
+                userPassword
+            );
+
+
+            email.value =
+                "";
+
+            password.value =
+                "";
+
+
+        }catch(error){
+
+            console.error(
+                "Firebase login error:",
+                error
+            );
+
+
+            let message =
+                "Login failed.";
+
+
+            if(
+                error.code ===
+                "auth/invalid-credential"
+            ){
+
+                message =
+                    "Invalid email or password.";
+
+            }else if(
+                error.code ===
+                "auth/user-not-found"
+            ){
+
+                message =
+                    "Admin account was not found.";
+
+            }else if(
+                error.code ===
+                "auth/wrong-password"
+            ){
+
+                message =
+                    "Incorrect password.";
+
+            }else if(
+                error.code ===
+                "auth/invalid-email"
+            ){
+
+                message =
+                    "Invalid email address.";
+
+            }else{
+
+                message =
+                    error.message ||
+                    "Login failed.";
+
+            }
+
+
+            showStatus(
+                loginStatus,
+                message
+            );
+
+        }
+
+
+        loginButton.disabled =
+            false;
+
+        loginButton.textContent =
+            "LOGIN";
+
+    }
+);
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+logoutButton.addEventListener(
+    "click",
+    async function(){
+
+        try{
+
+            await signOut(
+                auth
+            );
+
+        }catch(error){
+
+            console.error(
+                error
+            );
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   UPLOAD BUTTON
+===================================================== */
+
+uploadButton.addEventListener(
+    "click",
+    uploadVideo
+);
+
+
+
+/* =====================================================
+   CLOUDINARY UPLOAD
+===================================================== */
+
+function uploadToCloudinary(
+    file
+){
+
+    return new Promise(
+        function(resolve,reject){
+
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "file",
+                file
+            );
+
+
+            /*
+             * FIXED:
+             * Use the Cloudinary unsigned
+             * upload preset variable.
+             */
+
+            formData.append(
+                "upload_preset",
+                CLOUDINARY_UPLOAD_PRESET
+            );
+
+
+            const xhr =
+                new XMLHttpRequest();
+
+
+            xhr.open(
+                "POST",
+                CLOUDINARY_UPLOAD_URL,
+                true
+            );
+
+
+            /*
+             * Browser-to-Cloudinary request
+             */
+
+            xhr.withCredentials =
+                false;
+
+
+            /*
+             * No artificial timeout.
+             */
+
+            xhr.timeout =
+                0;
+
+
+            /*
+             * UPLOAD PROGRESS
+             */
+
+            xhr.upload.addEventListener(
+                "progress",
+                function(event){
+
+                    if(
+                        event.lengthComputable
+                    ){
+
+                        const percent =
+                            Math.round(
+                                (
+                                    event.loaded /
+                                    event.total
+                                ) *
+                                100
+                            );
+
+
+                        progressBar.style.width =
+                            percent +
+                            "%";
+
+
+                        progressText.textContent =
+                            percent +
+                            "%";
+
+
+                        showStatus(
+                            uploadStatus,
+                            "Uploading video to Cloudinary... " +
+                            percent +
+                            "%"
+                        );
+
+                    }
+
+                }
+            );
+
+
+            /*
+             * RESPONSE
+             */
+
+            xhr.onload =
+                function(){
+
+                    let result =
+                        null;
+
+
+                    try{
+
+                        result =
+                            JSON.parse(
+                                xhr.responseText
+                            );
+
+                    }catch(error){
+
+                        result =
+                            null;
+
+                    }
+
+
+                    /*
+                     * SUCCESS
+                     */
+
+                    if(
+                        xhr.status >= 200 &&
+                        xhr.status < 300 &&
+                        result
+                    ){
+
+                        resolve(
+                            result
+                        );
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * CLOUDINARY ERROR
+                     */
+
+                    let message =
+                        "Cloudinary upload failed.";
+
+
+                    if(
+                        result &&
+                        result.error &&
+                        result.error.message
+                    ){
+
+                        message =
+                            result.error.message;
+
+                    }else if(
+                        xhr.status
+                    ){
+
+                        message =
+                            "Cloudinary returned HTTP " +
+                            xhr.status +
+                            ".";
+
+                    }
+
+
+                    reject(
+                        new Error(
+                            message
+                        )
+                    );
+
+                };
+
+
+            /*
+             * CONNECTION ERROR
+             */
+
+            xhr.onerror =
+                function(){
+
+                    if(
+                        navigator.onLine ===
+                        false
+                    ){
+
+                        reject(
+                            new Error(
+                                "Your phone is offline. Connect to the internet and try again."
+                            )
+                        );
+
+                        return;
+
+                    }
+
+
+                    reject(
+                        new Error(
+                            "The browser could not complete the Cloudinary connection. Please try again in Chrome and make sure your internet connection is stable."
+                        )
+                    );
+
+                };
+
+
+            /*
+             * TIMEOUT
+             */
+
+            xhr.ontimeout =
+                function(){
+
+                    reject(
+                        new Error(
+                            "The Cloudinary upload timed out. Please try again."
+                        )
+                    );
+
+                };
+
+
+            /*
+             * ABORT
+             */
+
+            xhr.onabort =
+                function(){
+
+                    reject(
+                        new Error(
+                            "The Cloudinary upload was cancelled."
+                        )
+                    );
+
+                };
+
+
+            /*
+             * SEND
+             */
+
+            try{
+
+                xhr.send(
+                    formData
+                );
+
+            }catch(error){
+
+                reject(
+                    error
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   UPLOAD VIDEO
+===================================================== */
+
+async function uploadVideo(){
+
+    hideStatus(
+        uploadStatus
+    );
+
+
+    const title =
+        videoTitle.value.trim();
+
+
+    const file =
+        videoFile.files[0];
+
+
+    /*
+     * CHECK LOGIN
+     */
+
+    if(!auth.currentUser){
+
+        showStatus(
+            uploadStatus,
+            "Your admin session has expired. Please log in again."
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * CHECK TITLE
+     */
+
+    if(!title){
+
+        showStatus(
+            uploadStatus,
+            "Enter a video title."
+        );
+
+        videoTitle.focus();
+
+        return;
+
+    }
+
+
+    /*
+     * CHECK FILE
+     */
+
+    if(!file){
+
+        showStatus(
+            uploadStatus,
+            "Select a video."
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * CHECK VIDEO TYPE
+     */
+
+    if(
+        !file.type ||
+        !file.type.startsWith(
+            "video/"
+        )
+    ){
+
+        showStatus(
+            uploadStatus,
+            "Please select a valid video file."
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * START UI
+     */
+
+    uploadButton.disabled =
+        true;
+
+    uploadButton.textContent =
+        "UPLOADING...";
+
+
+    progress.style.display =
+        "block";
+
+    progressText.style.display =
+        "block";
+
+
+    progressBar.style.width =
+        "0%";
+
+    progressText.textContent =
+        "0%";
+
+
+    try{
+
+        /*
+         * CLOUDINARY
+         */
+
+        showStatus(
+            uploadStatus,
+            "Connecting to Cloudinary..."
+        );
+
+
+        const result =
+            await uploadToCloudinary(
+                file
+            );
+
+
+        console.log(
+            "Cloudinary response:",
+            result
+        );
+
+
+        const videoUrl =
+            result.secure_url;
+
+
+        const publicId =
+            result.public_id;
+
+
+        if(!videoUrl){
+
+            throw new Error(
+                "Cloudinary uploaded the file but did not return a video URL."
+            );
+
+        }
+
+
+        if(!publicId){
+
+            throw new Error(
+                "Cloudinary uploaded the file but did not return a public ID."
+            );
+
+        }
+
+
+        progressBar.style.width =
+            "100%";
+
+        progressText.textContent =
+            "100%";
+
+
+        showStatus(
+            uploadStatus,
+            "Video uploaded to Cloudinary. Publishing to Firebase..."
+        );
+
+
+        /*
+         * THUMBNAIL
+         */
+
+        const thumbnail =
+            "https://res.cloudinary.com/" +
+            CLOUDINARY_CLOUD_NAME +
+            "/video/upload/so_0/" +
+            publicId +
+            ".jpg";
+
+
+        /*
+         * FIREBASE DATABASE
+         */
+
+        const videosRef =
+            ref(
+                database,
+                "videos"
+            );
+
+
+        const newVideo =
+            push(
+                videosRef
+            );
+
+
+        await set(
+            newVideo,
+            {
+
+                title:
+                    title,
+
+                url:
+                    videoUrl,
+
+                publicId:
+                    publicId,
+
+                thumbnail:
+                    thumbnail,
+
+                published:
+                    true,
+
+                createdAt:
+                    Date.now(),
+
+                uploadedBy:
+                    auth.currentUser.uid
+
+            }
+        );
+
+
+        /*
+         * SUCCESS
+         */
+
+        showStatus(
+            uploadStatus,
+            "Video uploaded and published successfully."
+        );
+
+
+        videoTitle.value =
+            "";
+
+        videoFile.value =
+            "";
+
+        fileInfo.textContent =
+            "";
+
+        fileInfo.classList.remove(
+            "show"
+        );
+
+
+        setTimeout(
+            function(){
+
+                progress.style.display =
+                    "none";
+
+                progressText.style.display =
+                    "none";
+
+            },
+            2000
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "UPLOAD ERROR:",
+            error
+        );
+
+
+        let message =
+            error.message ||
+            "An unknown upload error occurred.";
+
+
+        showStatus(
+            uploadStatus,
+            "ERROR: " +
+            message
+        );
+
+
+    }finally{
+
+        uploadButton.disabled =
+            false;
+
+        uploadButton.textContent =
+            "UPLOAD & PUBLISH";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOAD PUBLISHED VIDEOS
+===================================================== */
+
+function loadVideos(){
+
+    const videosRef =
+        ref(
+            database,
+            "videos"
+        );
+
+
+    onValue(
+        videosRef,
+        function(snapshot){
+
+            const data =
+                snapshot.val();
+
+
+            videoList.innerHTML =
+                "";
+
+
+            if(!data){
+
+                videoList.innerHTML =
+                    "<div>No videos published yet.</div>";
+
+                return;
+
+            }
+
+
+            const videos =
+                Object.entries(
+                    data
+                ).map(
+                    function(entry){
+
+                        return {
+
+                            id:
+                                entry[0],
+
+                            ...entry[1]
+
+                        };
+
+                    }
+                );
+
+
+            videos.sort(
+                function(a,b){
+
+                    return (
+                        (b.createdAt || 0) -
+                        (a.createdAt || 0)
+                    );
+
+                }
+            );
+
+
+            let visibleCount =
+                0;
+
+
+            videos.forEach(
+                function(video){
+
+                    if(
+                        video.published ===
+                        false
+                    ){
+
+                        return;
+
+                    }
+
+
+                    visibleCount++;
+
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    item.className =
+                        "video-item";
+
+
+                    /*
+                     * THUMBNAIL
+                     */
+
+                    const thumb =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    thumb.className =
+                        "video-thumb";
+
+
+                    if(video.thumbnail){
+
+                        const img =
+                            document.createElement(
+                                "img"
+                            );
+
+
+                        img.src =
+                            video.thumbnail;
+
+                        img.alt =
+                            video.title ||
+                            "Audiovisual";
+
+                        img.loading =
+                            "lazy";
+
+
+                        thumb.appendChild(
+                            img
+                        );
+
+                    }
+
+
+                    /*
+                     * DETAILS
+                     */
+
+                    const details =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    details.className =
+                        "video-details";
+
+
+                    const name =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    name.className =
+                        "video-name";
+
+
+                    name.textContent =
+                        video.title ||
+                        "Untitled video";
+
+
+                    details.appendChild(
+                        name
+                    );
+
+
+                    const date =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    date.className =
+                        "video-date";
+
+
+                    if(video.createdAt){
+
+                        date.textContent =
+                            new Date(
+                                video.createdAt
+                            ).toLocaleString();
+
+                    }else{
+
+                        date.textContent =
+                            "Date unavailable";
+
+                    }
+
+
+                    details.appendChild(
+                        date
+                    );
+
+
+                    /*
+                     * DELETE
+                     */
+
+                    const deleteButton =
+                        document.createElement(
+                            "button"
+                        );
+
+
+                    deleteButton.className =
+                        "delete-button";
+
+
+                    deleteButton.textContent =
+                        "DELETE";
+
+
+                    deleteButton.addEventListener(
+                        "click",
+                        function(){
+
+                            deleteVideo(
+                                video.id,
+                                video.title
+                            );
+
+                        }
+                    );
+
+
+                    item.appendChild(
+                        thumb
+                    );
+
+
+                    item.appendChild(
+                        details
+                    );
+
+
+                    item.appendChild(
+                        deleteButton
+                    );
+
+
+                    videoList.appendChild(
+                        item
+                    );
+
+                }
+            );
+
+
+            if(
+                visibleCount ===
+                0
+            ){
+
+                videoList.innerHTML =
+                    "<div>No videos published yet.</div>";
+
+            }
+
+        },
+
+        function(error){
+
+            console.error(
+                "Firebase read error:",
+                error
+            );
+
+
+            videoList.innerHTML =
+                "Unable to load videos: " +
+                error.message;
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   DELETE VIDEO
+===================================================== */
+
+async function deleteVideo(
+    videoId,
+    videoTitleText
+){
+
+    const confirmed =
+        confirm(
+            "Delete \"" +
+            (
+                videoTitleText ||
+                "this video"
+            ) +
+            "\" from the published list?"
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    try{
+
+        await remove(
+            ref(
+                database,
+                "videos/" +
+                videoId
+            )
+        );
+
+
+        showStatus(
+            uploadStatus,
+            "Video removed from the published list."
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Delete error:",
+            error
+        );
+
+
+        showStatus(
+            uploadStatus,
+            "Delete failed: " +
+            error.message
+        );
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
