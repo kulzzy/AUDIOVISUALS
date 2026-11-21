@@ -350,7 +350,8 @@ body{
 
         <button
             id="closeButton"
-            class="close">
+            class="close"
+            type="button">
 
             ×
 
@@ -465,148 +466,78 @@ const shareButton =
 
 
 /* =====================================================
-   RADIO CONTROL
+   KULZZY UNIVERSAL MEDIA CONTROLLER
 ===================================================== */
 
-let radioWasPlaying = false;
+/*
+   This callback stops the audiovisual completely
+   when another connected player takes control.
+*/
 
+function stopAudiovisualForUniversalControl(detail){
 
-function getRadioFrame(){
+    mainVideo.pause();
 
-    /*
-       First search the current document.
+    mainVideo.removeAttribute("src");
 
-       This works when AUDIOVISUALS is loaded
-       directly inside the Kulzzy app.
-    */
+    mainVideo.load();
 
-    let frame =
-        document.querySelector(
-            ".kulzzyFloatPlayer iframe"
-        );
+    videoModal.classList.remove("active");
 
-
-    if(frame){
-        return frame;
-    }
-
-
-    /*
-       If AUDIOVISUALS is inside an iframe,
-       search the parent document when allowed.
-    */
-
-    try{
-
-        if(
-            window.parent &&
-            window.parent !== window
-        ){
-
-            frame =
-                window.parent.document
-                .querySelector(
-                    ".kulzzyFloatPlayer iframe"
-                );
-
-            if(frame){
-                return frame;
-            }
-
-        }
-
-    }catch(error){
-
-        console.log(
-            "Radio frame search:",
-            error
-        );
-
-    }
-
-
-    return null;
-
-}
-
-
-function sendRadioCommand(action){
-
-    const frame =
-        getRadioFrame();
-
-
-    if(frame && frame.contentWindow){
-
-        frame.contentWindow.postMessage(
-            {
-                source:
-                "KULZZY_AUDIOVISUALS",
-
-                action:
-                action
-            },
-            "*"
-        );
-
-        return true;
-
-    }
-
-
-    /*
-       Fallback for iframe-based embedding.
-    */
-
-    try{
-
-        window.parent.postMessage(
-            {
-                source:
-                "KULZZY_AUDIOVISUALS",
-
-                action:
-                action
-            },
-            "*"
-        );
-
-    }catch(error){
-
-        console.log(
-            "Radio message error:",
-            error
-        );
-
-    }
-
-
-    return false;
-
-}
-
-
-function pauseRadio(){
-
-    /*
-       The AUTO-PLAYER will determine whether
-       it was actually playing.
-    */
-
-    sendRadioCommand(
-        "VIDEO_PLAY"
+    console.log(
+        "[Kulzzy Audiovisuals] Playback stopped by Universal Media Controller.",
+        detail || {}
     );
 
 }
 
 
-function resumeRadio(){
+/*
+   Register Audiovisuals with the central controller.
+*/
 
-    sendRadioCommand(
-        "VIDEO_ENDED"
+window.KULZZY_MEDIA_PLAYER_CONFIG = {
+
+    playerId:
+    "kulzzy-radio-audiovisuals",
+
+    playerName:
+    "Kulzzy Radio Audiovisuals",
+
+    stop:
+    stopAudiovisualForUniversalControl
+
+};
+
+
+/*
+   Load the existing central controller.
+   No changes to the central controller are required.
+*/
+
+const universalControllerScript =
+    document.createElement("script");
+
+
+universalControllerScript.src =
+    "https://raw.githubusercontent.com/kulzzy/KULZZY-UNIVERSAL-MEDIA-CONTROL/main/controller.js";
+
+
+universalControllerScript.async = true;
+
+
+universalControllerScript.onerror = function(){
+
+    console.error(
+        "[Kulzzy Audiovisuals] Universal Media Controller could not be loaded."
     );
 
-}
+};
+
+
+document.head.appendChild(
+    universalControllerScript
+);
 
 
 /* =====================================================
@@ -896,34 +827,7 @@ function openVideo(video){
     }
 
 
-    /*
-       Tell AUTO-PLAYER to pause the radio
-       as soon as the audiovisual starts.
-    */
-
-    mainVideo.onplay =
-        function(){
-
-            pauseRadio();
-
-        };
-
-
-    /*
-       IMPORTANT:
-
-       When the audiovisual is manually paused,
-       radio stays paused.
-
-       We do NOT call resumeRadio() here.
-    */
-
-    mainVideo.onpause =
-        function(){
-
-            return;
-
-        };
+    mainVideo.pause();
 
 
     mainVideo.src =
@@ -957,11 +861,19 @@ function openVideo(video){
    VIDEO ENDED
 ===================================================== */
 
+/*
+   Do not resume Radio or Music of the Month.
+   The controller releases this audiovisual session
+   when playback ends.
+*/
+
 mainVideo.addEventListener(
     "ended",
     function(){
 
-        resumeRadio();
+        console.log(
+            "[Kulzzy Audiovisuals] Playback finished."
+        );
 
     }
 );
@@ -987,9 +899,6 @@ function closeVideo(){
     videoModal.classList.remove(
         "active"
     );
-
-
-    resumeRadio();
 
 }
 
