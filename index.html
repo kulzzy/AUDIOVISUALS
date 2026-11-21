@@ -466,13 +466,8 @@ const shareButton =
 
 
 /* =====================================================
-   KULZZY UNIVERSAL MEDIA CONTROLLER
+   UNIVERSAL MEDIA CONTROL STOP HOOK
 ===================================================== */
-
-/*
-   This callback stops the audiovisual completely
-   when another connected player takes control.
-*/
 
 function stopAudiovisualForUniversalControl(detail){
 
@@ -493,51 +488,12 @@ function stopAudiovisualForUniversalControl(detail){
 
 
 /*
-   Register Audiovisuals with the central controller.
+   Make the player-specific stop function available
+   to the separate connector.js file.
 */
 
-window.KULZZY_MEDIA_PLAYER_CONFIG = {
-
-    playerId:
-    "kulzzy-radio-audiovisuals",
-
-    playerName:
-    "Kulzzy Radio Audiovisuals",
-
-    stop:
-    stopAudiovisualForUniversalControl
-
-};
-
-
-/*
-   Load the existing central controller.
-   No changes to the central controller are required.
-*/
-
-const universalControllerScript =
-    document.createElement("script");
-
-
-universalControllerScript.src =
-    "https://raw.githubusercontent.com/kulzzy/KULZZY-UNIVERSAL-MEDIA-CONTROL/main/controller.js";
-
-
-universalControllerScript.async = true;
-
-
-universalControllerScript.onerror = function(){
-
-    console.error(
-        "[Kulzzy Audiovisuals] Universal Media Controller could not be loaded."
-    );
-
-};
-
-
-document.head.appendChild(
-    universalControllerScript
-);
+window.KULZZY_STOP_PLAYER =
+    stopAudiovisualForUniversalControl;
 
 
 /* =====================================================
@@ -861,12 +817,6 @@ function openVideo(video){
    VIDEO ENDED
 ===================================================== */
 
-/*
-   Do not resume Radio or Music of the Month.
-   The controller releases this audiovisual session
-   when playback ends.
-*/
-
 mainVideo.addEventListener(
     "ended",
     function(){
@@ -1028,7 +978,7 @@ function escapeHtml(value){
 
     return String(value)
     .replace(
-        /&/g,
+        /&/g        ,
         "&amp;"
     )
     .replace(
@@ -1051,6 +1001,9 @@ function escapeHtml(value){
 }
 
 </script>
+
+<!-- SEPARATE UNIVERSAL MEDIA CONNECTOR -->
+<script src="./connector.js"></script>
 
 </body>
 </html>
